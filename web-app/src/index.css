@@ -865,8 +865,9 @@ button:focus-visible {
 
 .carousel-popup {
   position: relative;
-  width: 100%;
-  max-width: 90vw;
+  width: min(90vw, 560px);
+  height: 85vh;
+  min-height: 320px;
   max-height: 85vh;
   background: #1a1d21;
   border-radius: 12px;
@@ -875,6 +876,7 @@ button:focus-visible {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
 }
 
 .carousel-popup-close {
@@ -907,11 +909,26 @@ button:focus-visible {
   display: flex;
   flex-direction: column;
   padding: 2.5rem 0.5rem 1rem;
+  overflow: hidden;
 }
 
 .carousel-popup-content .picture-carousel {
   flex: 1;
-  min-height: 200px;
+  min-height: 0;
+}
+
+.carousel-popup-content .picture-carousel-track {
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+.carousel-popup-content .picture-carousel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 /* Right panel: notes / stats */
