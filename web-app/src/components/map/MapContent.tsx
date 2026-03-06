@@ -7,13 +7,14 @@ import {
   useMapEvents,
 } from "react-leaflet"
 import { useState } from "react"
+import type { GeoJsonObject } from "geojson"
 import { getPinState, pinIcons, PIN_TOOLTIP_OFFSET_HEIGHT } from "./pinIcons"
 
 const PLACE_LABEL_MIN_ZOOM = 11
 
 export interface MapContentProps {
-  route?: { name: string; geojson: unknown }
-  routes?: { name: string; geojson: unknown }[]
+  route?: { name: string; geojson: GeoJsonObject }
+  routes?: { name: string; geojson: GeoJsonObject }[]
   waypoints: { name: string; coordinates: number[] }[]
   waypointNamesToShow?: Set<string>
   routeWaypointOrder?: string[]
