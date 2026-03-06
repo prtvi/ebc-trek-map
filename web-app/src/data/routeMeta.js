@@ -3,7 +3,7 @@ const PP = (date, assetCount) => {
 
 	for (let i = 1; i <= assetCount; i++) {
 		out.push(
-			`https://res.cloudinary.com/dbedchkny/image/upload/v1772697057/EBC/${date}/${date}-${i}.webp`,
+			`https://res.cloudinary.com/dbedchkny/image/upload/EBC/${date}/${date}-${i}.webp`,
 		);
 	}
 
@@ -22,7 +22,7 @@ export const routeMeta = {
 		day: 'Ended on',
 		date: '2026-02-25',
 		pictures: [...PP('2026-02-24', 7), ...PP('2026-02-25', 5)],
-		notes: 'Return journey from EBC to Lukla via Pheriche, Tengboche and Namche. Long descent days.',
+		notes: 'Return journey from EBC to Lukla via Pheriche, Tengboche and Namche. Long descent days. But really proud to have completed the descent in 2 days.',
 	},
 
 	// point to point and day wise routes
@@ -30,61 +30,61 @@ export const routeMeta = {
 		day: 'Day 1',
 		date: '2026-02-14',
 		pictures: PP('2026-02-14', 6),
-		notes: 'Short descent from Lukla to Phakding. First day on the trail, easy walk alongside the Dudh Koshi. Stayed at a teahouse with great dal bhat.',
+		notes: 'Short descent from Lukla to Phakding. First day on the trail, kinda tiring but beautiful views of the villages and mountains. Good food at Phakding.',
 	},
 	'Phakding - Namche Bazaar': {
 		day: 'Day 2',
 		date: '2026-02-15',
 		pictures: PP('2026-02-15', 16),
-		notes: 'Tough climb up to Namche. Crossed the high suspension bridges. First views of Everest from the viewpoint above Namche. Rest day tomorrow for acclimatisation.',
+		notes: 'Tough climb up to Namche. Crossed the high suspension bridges. Entered the Sagarmatha National Park. Witnessed snowfall for the first time. Rest day tomorrow for acclimatisation.',
 	},
 	'Namche Bazaar - Dole': {
 		day: 'Day 4',
 		date: '2026-02-17',
 		pictures: PP('2026-02-17', 14),
-		notes: 'Left the main EBC trail for the Gokyo route. Steep climb to Mong La then through rhododendron forest to Dole. Quieter trail, fewer trekkers.',
+		notes: 'Left the main EBC trail for the Gokyo route. Steep climb to Mong La then through the forest to Dole. Quieter trail, fewer trekkers. Felt like the longest trail so far.',
 	},
 	'Dole - Macchermo': {
 		day: 'Day 5',
 		date: '2026-02-18',
 		pictures: PP('2026-02-18', 6),
-		notes: 'Short day to Macchermo. Altitude starting to bite. Had a good rest and hydrated well. Views of Cho Oyu improving.',
+		notes: 'Short day to Macchermo. Shorter distance so did not take many breaks. Views were amazing.',
 	},
 	'Macchermo - Gokyo': {
 		day: 'Day 6',
 		date: '2026-02-19',
 		pictures: PP('2026-02-19', 10),
-		notes: 'Reached Gokyo village by the lake. Stunning turquoise water. Afternoon walk up Gokyo Ri for panoramic views — Everest, Lhotse, Makalu, Cho Oyu. One of the best viewpoints of the trek.',
+		notes: 'Reached Gokyo village by the lake. Stunning turquoise water. One of the best viewpoints of the trek. Rest day tomorrow for acclimatisation.',
 	},
 	'Gokyo - Dragnag': {
 		day: 'Day 8',
 		date: '2026-02-21',
 		pictures: PP('2026-02-21', 16),
-		notes: 'Crossed the Ngozumpa glacier to Dragnag. Rocky, uneven terrain. Early start to get across before afternoon sun. Tired but excited for Cho La tomorrow.',
+		notes: 'Crossed the Ngozumpa glacier to Dragnag. Rocky, uneven terrain. Felt very difficult to get there.',
 	},
 	'Dragnag - Cho La': {
 		day: 'Day 8',
 		date: '2026-02-21',
 		pictures: PP('2026-02-21', 16),
-		notes: 'Cho La pass day. Steep climb on snow and rock, then descent to Dzonglha. Most challenging day so far. Started before dawn with headlamps.',
+		notes: 'Felt very very tiriging to get to the top of the Cho La pass. Steep climb on snow and rock, then descent to Dzonglha. Most challenging day so far.',
 	},
 	'Cho La - Dzonglha': {
 		day: 'Day 8',
 		date: '2026-02-21',
 		pictures: PP('2026-02-21', 16),
-		notes: 'Completed the Cho La crossing and descended to Dzonglha. Rejoined the main EBC route. Cold and windy on the pass; relief to reach the lodge.',
+		notes: 'Completed the Cho La crossing and descended to Dzonglha. Barely made it by the end of the day. Experienced extreme cold and snowfall. Good rest at Dzonglha.',
 	},
 	'Dzonglha - Lobuche': {
 		day: 'Day 9',
 		date: '2026-02-22',
 		pictures: PP('2026-02-22', 8),
-		notes: 'Short walk to Lobuche. Passed the memorial stupas for climbers who did not return. Altitude noticeable; took it slow and drank plenty of water.',
+		notes: 'Short walk to Lobuche. The trail was gentler than expected. Good rest at Lobuche.',
 	},
 	'Lobuche - Gorak Shep': {
 		day: 'Day 10',
 		date: '2026-02-23',
 		pictures: PP('2026-02-23', 9),
-		notes: 'Final push to Gorak Shep. Rocky trail beside the Khumbu glacier. Settled in at the lodge — EBC tomorrow!',
+		notes: 'EBC day! Rocky trail beside the Khumbu glacier to Gorak Shep. Had some good breakfast here and left for EBC.',
 	},
 	'Gorak Shep - Everest Base Camp Monument': {
 		day: 'Day 10',
@@ -96,7 +96,7 @@ export const routeMeta = {
 		day: 'Day 10',
 		date: '2026-02-23',
 		pictures: PP('2026-02-23', 9),
-		notes: 'Walked back from EBC to Gorak Shep. Same trail in reverse. Spent a second night at Gorak Shep before descending.',
+		notes: 'Walked back from EBC to Gorak Shep. Same trail in reverse. Spent a little time for snacks at Gorak Shep and descended to Lobuche.',
 	},
 	'Gorak Shep - Lobuche': {
 		day: 'Day 10',
@@ -108,13 +108,13 @@ export const routeMeta = {
 		day: 'Day 11',
 		date: '2026-02-24',
 		pictures: PP('2026-02-24', 7),
-		notes: 'Long descent to Pheriche. Much easier breathing at lower altitude. Stopped at the medical post in Pheriche for a quick check.',
+		notes: 'Long descent to Pheriche. Much easier breathing at lower altitude. Got some good hydration here; didn\'t stop here, planned to target reaching Namche Bazaar today.',
 	},
 	'Pheriche - Pangboche': {
 		day: 'Day 11',
 		date: '2026-02-24',
 		pictures: PP('2026-02-24', 7),
-		notes: 'Continued down to Pangboche. Visited the old monastery. Warmer and more vegetation; feeling the benefit of losing altitude.',
+		notes: 'Continued down to Pangboche. Warmer and more vegetation; feeling the benefit of losing altitude.',
 	},
 	'Pangboche - Tengboche': {
 		day: 'Day 11',
@@ -126,7 +126,7 @@ export const routeMeta = {
 		day: 'Day 11',
 		date: '2026-02-24',
 		pictures: PP('2026-02-24', 7),
-		notes: 'Down to Namche. Steep drop to the river then climb back to Namche. Celebrated with a shower and a proper meal at the bakery.',
+		notes: 'Down to Namche. Steep drop to the river then climb back to Namche. Celebrated with a shower and a proper meal at the stay.',
 	},
 	'Namche Bazaar - Phakding': {
 		day: 'Day 12',
@@ -146,7 +146,7 @@ export const routeMeta = {
 		day: 'Day 8',
 		date: '2026-02-21',
 		pictures: PP('2026-02-21', 16),
-		notes: 'Full day from Gokyo over the Ngozumpa glacier to Dragnag, then over Cho La pass to Dzonglha. Long and demanding; glacier crossing in the morning, pass in the afternoon.',
+		notes: 'Full day from Gokyo over the Ngozumpa glacier to Dragnag, then over Cho La pass to Dzonglha. Long and demanding; glacier crossing in the morning, pass in the afternoon. One of the most challenging days of the entire trek.',
 	},
 	'Lobuche - Everest Base Camp Monument': {
 		day: 'Day 10',
