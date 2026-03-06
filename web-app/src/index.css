@@ -799,6 +799,16 @@ button:focus-visible {
   width: 100%;
 }
 
+/* Custom waypoint pins (divIcon): no default marker image */
+.map-view-wrapper .map-pin-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+.map-view-wrapper .map-pin-icon svg {
+  display: block;
+}
+
 /* Notes section: title row with optional pictures icon */
 .right-panel-heading-row {
   display: flex;

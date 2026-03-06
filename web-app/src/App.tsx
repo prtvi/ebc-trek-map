@@ -8,7 +8,7 @@ import Sidebar from './components/SideBar';
 import ElevationChart from './components/ElevationChart';
 import RightPanel from './components/RightPanel';
 import PictureCarousel from './components/PictureCarousel';
-import { waypointsOnRoute } from './utils/waypointsOnRoute';
+import { waypointsOnRoute, waypointNamesOrderedAlongRoute } from './utils/waypointsOnRoute';
 
 // Full routes, point-to-point, and day-wise (for EBC uphill/downhill) merged for lookup.
 const fullRoutes = fullRoutesData.routes;
@@ -64,6 +64,24 @@ export default function App() {
 			| [number, number, number][];
 		const onRoute = waypointsOnRoute(coords, waypoints);
 		return new Set(onRoute.map(w => w.name));
+	}, [
+		selectedRoute,
+		selectedDayDate,
+		dayWiseRoutesForSelectedDate,
+		waypoints,
+	]);
+
+	const routeWaypointOrder = useMemo(() => {
+		const routeToUse =
+			selectedDayDate && dayWiseRoutesForSelectedDate.length > 0
+				? dayWiseRoutesForSelectedDate[0]
+				: selectedRoute;
+		if (!routeToUse?.geojson?.geometry?.coordinates?.length)
+			return [];
+		const coords = routeToUse.geojson.geometry.coordinates as
+			| [number, number][]
+			| [number, number, number][];
+		return waypointNamesOrderedAlongRoute(coords, waypoints);
 	}, [
 		selectedRoute,
 		selectedDayDate,
@@ -180,6 +198,7 @@ export default function App() {
 						}
 						waypoints={waypoints}
 						waypointNamesToShow={waypointNamesOnRoute}
+						routeWaypointOrder={routeWaypointOrder}
 					/>
 				</div>
 

@@ -48,3 +48,36 @@ export function waypointsOnRoute(
 		return minDist <= MAX_DISTANCE_KM
 	})
 }
+
+/**
+ * Returns waypoint names on the route in order along the route (first = start, last = end).
+ * Used to style start (green), end (red), and middle (blue) pins.
+ */
+export function waypointNamesOrderedAlongRoute(
+	routeCoords: [number, number][] | [number, number, number][],
+	waypoints: Waypoint[],
+): string[] {
+	if (!routeCoords.length) return []
+	const onRoute = waypointsOnRoute(routeCoords, waypoints)
+	if (!onRoute.length) return []
+	// For each waypoint, find the index of the closest route point (as position along route).
+	const withIndex: { name: string; index: number }[] = onRoute.map((wp) => {
+		const wpPt: [number, number] =
+			wp.coordinates.length >= 2
+				? [wp.coordinates[0], wp.coordinates[1]]
+				: [0, 0]
+		let minDist = Infinity
+		let bestIndex = 0
+		routeCoords.forEach((pt, i) => {
+			const p: [number, number] = [pt[0], pt[1]]
+			const d = haversineKm(wpPt, p)
+			if (d < minDist) {
+				minDist = d
+				bestIndex = i
+			}
+		})
+		return { name: wp.name, index: bestIndex }
+	})
+	withIndex.sort((a, b) => a.index - b.index)
+	return withIndex.map((w) => w.name)
+}
