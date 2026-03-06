@@ -573,6 +573,7 @@ button:focus-visible {
     flex: 1;
     min-height: 0;
     height: auto;
+    pointer-events: none; /* disable hover/touch tooltip on mobile */
   }
 
   .app-chart .elevation-chart-distance {
