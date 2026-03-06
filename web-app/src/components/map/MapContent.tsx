@@ -13,8 +13,8 @@ import { getPinState, pinIcons, PIN_TOOLTIP_OFFSET_HEIGHT } from "./pinIcons"
 const PLACE_LABEL_MIN_ZOOM = 11
 
 export interface MapContentProps {
-  route?: { name: string; geojson: GeoJsonObject }
-  routes?: { name: string; geojson: GeoJsonObject }[]
+  route?: { name: string; geojson: GeoJsonObject | any }
+  routes?: { name: string; geojson: GeoJsonObject | any }[]
   waypoints: { name: string; coordinates: number[] }[]
   waypointNamesToShow?: Set<string>
   routeWaypointOrder?: string[]
