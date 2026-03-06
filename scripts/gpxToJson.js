@@ -3,7 +3,7 @@ const path = require("path");
 const xml2js = require("xml2js");
 const turf = require("@turf/turf");
 
-const RAW_DIR = path.join(__dirname, "..", "raw");
+const RAW_DIR = path.join(__dirname, "..", "gpx-files");
 const OUTPUT_DIR = path.join(__dirname, "..", "web-app", "src", "data");
 
 const INPUT_OUTPUT_MAP = [

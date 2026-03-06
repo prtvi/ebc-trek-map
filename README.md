@@ -2,7 +2,7 @@
 
 An **interactive web app** that visualizes the **Everest Base Camp (EBC)** trek — routes, elevation profiles, waypoints, and day-by-day photos and notes. Built to share the full journey from Lukla to EBC and back (via Gokyo and Cho La) in one place.
 
-![EBC Trek](https://res.cloudinary.com/dbedchkny/image/upload/v1772792585/EBC/head.png)
+![EBC Trek](https://res.cloudinary.com/dbedchkny/image/upload/v1772795423/EBC/social-preview.jpg)
 
 ## Overview
 
@@ -75,7 +75,7 @@ To adapt this for another EBC (or other) trek:
 
 1. **Route geometry** — Replace or edit `web-app/src/data/fullRoutes.json`, `pointToPointRoutes.json`, and `dayWiseRoutes.json` with your GeoJSON routes and waypoints.
 2. **Metadata** — Update `web-app/src/data/routeMeta.js`: route names, `date`, `day`, `pictures` (URLs), and `notes` for each segment.
-3. **Copy and titles** — Change the app title in `web-app/index.html` and the sidebar title in `web-app/src/components/SideBar.tsx` (e.g. “Prithvi and Koushik’s EBC Trek”).
+3. **Copy and titles** — Change the app title in `web-app/index.html` and the sidebar title in `web-app/src/components/SideBar.tsx`.
 4. **Images** — Use your own image URLs in `routeMeta.js`; the current ones point to Cloudinary.
 
 ## License
