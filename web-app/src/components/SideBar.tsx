@@ -80,6 +80,11 @@ export default function Sidebar({
 		setMenuOpen(false);
 	};
 
+	const handleDayDateClick = (dateStr: string) => {
+		onDayDateClick(dateStr);
+		setMenuOpen(false);
+	};
+
 	const orderedDates: string[] = [];
 	const dateToGroupIndex: Record<string, number> = {};
 	const dayGroups: { dateStr: string; routes: typeof dayRoutes }[] = [];
@@ -241,7 +246,7 @@ export default function Sidebar({
 												type="button"
 												className={`sidebar-date-header ${isEbcDay ? 'sidebar-date-header--ebc' : ''} ${selectedDayDate === dateStr ? 'sidebar-date-header--selected' : ''}`}
 												onClick={() =>
-													onDayDateClick(dateStr)
+													handleDayDateClick(dateStr)
 												}
 											>
 												{routeMeta[firstRoute.name]?.day
