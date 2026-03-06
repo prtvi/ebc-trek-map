@@ -5,12 +5,14 @@ import './index.css'
 import App from './App.tsx'
 
 import L from 'leaflet'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
+// Use copies in public/ so marker icons work in production (e.g. Netlify).
+// Imported assets can get wrong paths after bundling; public URLs are stable.
+const base = import.meta.env.BASE_URL
 L.Icon.Default.mergeOptions({
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
+  iconUrl: `${base}marker-icon.png`,
+  iconRetinaUrl: `${base}marker-icon-2x.png`,
+  shadowUrl: `${base}marker-shadow.png`,
 })
 
 createRoot(document.getElementById('root')!).render(
