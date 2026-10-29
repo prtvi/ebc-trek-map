@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { routeMeta } from './data/routeMeta'
 import {
   fullRoutes,
@@ -13,9 +13,30 @@ import RightPanel from './components/RightPanel'
 import PictureCarousel from './components/PictureCarousel'
 import CarouselPopup from './components/CarouselPopup'
 
+const WEBSITE_VISIT_URL =
+  'https://hotwheeeelsengine.onrender.com/api/capture_website_visit'
+
 export default function App() {
   const waypoints = useMemo(mergeWaypoints, [])
   const [carouselPopupOpen, setCarouselPopupOpen] = useState(false)
+
+  useEffect(() => {
+    const alreadyNotified = sessionStorage.getItem('homepage-webhook-sent')
+    if (alreadyNotified) return
+
+    sessionStorage.setItem('homepage-webhook-sent', '1')
+    fetch(WEBSITE_VISIT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=UTF-8' },
+      body: JSON.stringify({
+        url: window.location.href,
+        src: new URLSearchParams(window.location.search).get('src'),
+      }),
+    }).catch(() => {
+      // Ignore webhook failures so the map still loads
+      sessionStorage.removeItem('homepage-webhook-sent')
+    })
+  }, [])
 
   const {
     selectedRouteName,
