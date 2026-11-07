@@ -99,7 +99,7 @@ async function processDirectory(dirPath) {
   filesWithTime.sort((a, b) => a.originalTime - b.originalTime);
 
   const dayCounter = new Map();
-  console.log(`Found ${files.length} image(s). Converting to .webp in ${outputDir} (grouped by day, named 1-n) ...`);
+  console.log(`Found ${files.length} image(s). Converting to .webp in ${outputDir} (grouped by day, named YYYY-MM-DD-n) ...`);
 
   for (const { file, inputPath, originalTime } of filesWithTime) {
     const d = originalTime;
@@ -110,7 +110,8 @@ async function processDirectory(dirPath) {
 
     const dayOutputDir = path.join(outputDir, dayDir);
     await fs.mkdir(dayOutputDir, { recursive: true });
-    const outputPath = path.join(dayOutputDir, `${n}.webp`);
+    const outputName = `${dayDir}-${n}.webp`;
+    const outputPath = path.join(dayOutputDir, outputName);
 
     try {
       let buffer = await fs.readFile(inputPath);
@@ -121,7 +122,7 @@ async function processDirectory(dirPath) {
       const webpBuffer = await convertToWebp(buffer);
       await fs.writeFile(outputPath, webpBuffer);
       await fs.utimes(outputPath, originalTime, originalTime);
-      console.log("  ", file, "->", dayDir + "/" + `${n}.webp`);
+      console.log("  ", file, "->", dayDir + "/" + outputName);
     } catch (err) {
       console.error("  Error processing", file, err.message);
     }
