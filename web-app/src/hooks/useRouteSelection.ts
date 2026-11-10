@@ -12,11 +12,45 @@ import {
 	waypointNamesOrderedAlongRoute,
 } from '../utils/waypointsOnRoute';
 
+function getDayQueryParam(): string | null {
+	if (typeof window === 'undefined') return null;
+	return new URLSearchParams(window.location.search).get('day');
+}
+
+function findDayMetaByQ(q: string) {
+	return Object.values(routeMeta).find(
+		meta => meta.type === 'day' && meta.q === q,
+	);
+}
+
+function findDayQByDate(date: string): string | null {
+	const meta = Object.values(routeMeta).find(
+		m => m.type === 'day' && m.date === date && m.q,
+	);
+	return meta?.q ?? null;
+}
+
+function setDayQueryParam(q: string | null) {
+	if (typeof window === 'undefined') return;
+	const url = new URL(window.location.href);
+	if (q) url.searchParams.set('day', q);
+	else url.searchParams.delete('day');
+	window.history.replaceState({}, '', url);
+}
+
+function getInitialSelectedDayDate(): string | null {
+	const q = getDayQueryParam();
+	if (!q) return null;
+	return findDayMetaByQ(q)?.date ?? null;
+}
+
 export function useRouteSelection(waypoints: Waypoint[]) {
 	const [selectedRouteName, setSelectedRouteName] = useState(
 		allRoutes[0].name,
 	);
-	const [selectedDayDate, setSelectedDayDate] = useState<string | null>(null);
+	const [selectedDayDate, setSelectedDayDate] = useState<string | null>(
+		getInitialSelectedDayDate,
+	);
 
 	const selectedRoute = useMemo(
 		() => allRoutes.find(r => r.name === selectedRouteName),
@@ -71,10 +105,17 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 	const handleSelectRoute = useCallback((name: string) => {
 		setSelectedRouteName(name);
 		setSelectedDayDate(null);
+		const meta = routeMeta[name];
+		if (meta?.type === 'day' && meta.q) {
+			setDayQueryParam(meta.q);
+		} else {
+			setDayQueryParam(null);
+		}
 	}, []);
 
 	const handleDayDateClick = useCallback((date: string) => {
 		setSelectedDayDate(date);
+		setDayQueryParam(findDayQByDate(date));
 	}, []);
 
 	const hasRoute = !!selectedRoute || dayWiseRoutesForSelectedDate.length > 0;
