@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type MobileMediaView = 'map' | 'gallery'
 
@@ -20,6 +20,7 @@ interface Props {
 	onDayDateClick: (date: string) => void;
 	mobileMediaView: MobileMediaView;
 	onMobileMediaViewChange: (view: MobileMediaView) => void;
+	mediaEnabled?: boolean;
 }
 
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -92,8 +93,10 @@ export default function Sidebar({
 	onDayDateClick,
 	mobileMediaView,
 	onMobileMediaViewChange,
+	mediaEnabled = false,
 }: Props) {
 	const [menuOpen, setMenuOpen] = useState(false);
+	const routesListRef = useRef<HTMLDivElement>(null);
 
 	const handleSelect = (name: string) => {
 		onSelect(name);
@@ -104,6 +107,33 @@ export default function Sidebar({
 		onDayDateClick(dateStr);
 		setMenuOpen(false);
 	};
+
+	// Keep the active day/route visible when the drawer opens or selection
+	// comes from ?show=dayX on load.
+	useEffect(() => {
+		const isMobile =
+			typeof window !== 'undefined' &&
+			window.matchMedia('(max-width: 768px)').matches;
+		if (isMobile && !menuOpen) return;
+
+		const root = routesListRef.current;
+		if (!root) return;
+
+		const selectedEl = root.querySelector<HTMLElement>(
+			'[data-sidebar-selected="true"]',
+		);
+		if (!selectedEl) return;
+
+		// Wait for drawer slide-in so layout/overflow are ready
+		const delayMs = isMobile ? 320 : 0;
+		const timer = window.setTimeout(() => {
+			selectedEl.scrollIntoView({
+				block: 'center',
+				behavior: isMobile ? 'smooth' : 'instant',
+			});
+		}, delayMs);
+		return () => window.clearTimeout(timer);
+	}, [menuOpen, selected, selectedDayDate]);
 
 	const orderedDates: string[] = [];
 	const dateToGroupIndex: Record<string, number> = {};
@@ -146,6 +176,7 @@ export default function Sidebar({
 					}
 				}}
 				className={`sidebar-route ${isSelected ? 'selected' : ''} ${accentColor ? 'sidebar-route-has-date-group' : ''} ${isFullRoute ? 'sidebar-route-full' : ''} ${isEbcDay ? 'sidebar-route--ebc-day' : ''}`}
+				data-sidebar-selected={isSelected ? 'true' : undefined}
 				style={
 					accentColor
 						? { ['--date-accent' as string]: accentColor }
@@ -175,34 +206,36 @@ export default function Sidebar({
 						{TITLE}
 					</h2>
 				</div>
-				<div
-					className="app-media-switch"
-					role="tablist"
-					aria-label="Map or gallery"
-				>
-					<button
-						type="button"
-						role="tab"
-						className={`app-media-switch-btn${
-							mobileMediaView === 'map' ? ' is-active' : ''
-						}`}
-						aria-selected={mobileMediaView === 'map'}
-						onClick={() => onMobileMediaViewChange('map')}
+				{mediaEnabled && (
+					<div
+						className="app-media-switch"
+						role="tablist"
+						aria-label="Map or gallery"
 					>
-						Map
-					</button>
-					<button
-						type="button"
-						role="tab"
-						className={`app-media-switch-btn${
-							mobileMediaView === 'gallery' ? ' is-active' : ''
-						}`}
-						aria-selected={mobileMediaView === 'gallery'}
-						onClick={() => onMobileMediaViewChange('gallery')}
-					>
-						Gallery
-					</button>
-				</div>
+						<button
+							type="button"
+							role="tab"
+							className={`app-media-switch-btn${
+								mobileMediaView === 'map' ? ' is-active' : ''
+							}`}
+							aria-selected={mobileMediaView === 'map'}
+							onClick={() => onMobileMediaViewChange('map')}
+						>
+							Map
+						</button>
+						<button
+							type="button"
+							role="tab"
+							className={`app-media-switch-btn${
+								mobileMediaView === 'gallery' ? ' is-active' : ''
+							}`}
+							aria-selected={mobileMediaView === 'gallery'}
+							onClick={() => onMobileMediaViewChange('gallery')}
+						>
+							Gallery
+						</button>
+					</div>
+				)}
 			</div>
 
 			{/* Desktop: header; Mobile: drawer overlay + panel */}
@@ -249,7 +282,7 @@ export default function Sidebar({
 						<span>5,364 m</span>
 					</p>
 				</div>
-				<div className="sidebar-routes">
+				<div className="sidebar-routes" ref={routesListRef}>
 				{/* Full route at top */}
 				{fullRoutes.length > 0 && (
 					<>
@@ -363,6 +396,11 @@ export default function Sidebar({
 												? ' sidebar-day-group--selected'
 												: ''
 										}${isEbcDay ? ' sidebar-day-group--ebc' : ''}`}
+										data-sidebar-selected={
+											isSingleDaySelected
+												? 'true'
+												: undefined
+										}
 										style={treeStyle}
 										onClick={() =>
 											handleDayDateClick(dateStr)
@@ -376,16 +414,16 @@ export default function Sidebar({
 											}`}
 										>
 											{dayLabel}
-											{isEbcDay && (
-												<span className="sidebar-date-header-ebc-badge">
-													EBC day
-												</span>
-											)}
 										</div>
 										<div className="sidebar-day-single-route">
 											<span className="sidebar-day-single-route-name">
 												{singleRoute.name}
 											</span>
+											{isEbcDay && (
+												<span className="sidebar-date-header-ebc-badge">
+													EBC day
+												</span>
+											)}
 										</div>
 									</button>
 								);
@@ -420,6 +458,11 @@ export default function Sidebar({
 													? ' sidebar-day-summary--selected'
 													: ''
 											}`}
+											data-sidebar-selected={
+												isMultiDaySelected
+													? 'true'
+													: undefined
+											}
 											onClick={() =>
 												handleDayDateClick(dateStr)
 											}
@@ -432,17 +475,17 @@ export default function Sidebar({
 												}`}
 											>
 												{dayLabel}
-												{isEbcDay && (
-													<span className="sidebar-date-header-ebc-badge">
-														EBC day
-													</span>
-												)}
 											</div>
 											{fullDayLabel && (
 												<div className="sidebar-day-single-route">
 													<span className="sidebar-day-single-route-name">
 														{fullDayLabel}
 													</span>
+													{isEbcDay && (
+														<span className="sidebar-date-header-ebc-badge">
+															EBC day
+														</span>
+													)}
 												</div>
 											)}
 										</button>
@@ -456,19 +499,24 @@ export default function Sidebar({
 														? ' sidebar-day-summary--selected'
 														: ''
 												}`}
+												data-sidebar-selected={
+													selected === EBC_UPHILL_ROUTE
+														? 'true'
+														: undefined
+												}
 												onClick={() =>
 													handleSelect(EBC_UPHILL_ROUTE)
 												}
 											>
 												<div className="sidebar-date-header sidebar-date-header--static sidebar-date-header--ebc">
 													{headerLabel} (uphill)
-													<span className="sidebar-date-header-ebc-badge">
-														EBC day
-													</span>
 												</div>
 												<div className="sidebar-day-single-route">
 													<span className="sidebar-day-single-route-name">
 														{EBC_UPHILL_ROUTE}
+													</span>
+													<span className="sidebar-date-header-ebc-badge">
+														EBC day
 													</span>
 												</div>
 											</button>
@@ -500,6 +548,12 @@ export default function Sidebar({
 														? ' sidebar-day-summary--selected'
 														: ''
 												}`}
+												data-sidebar-selected={
+													selected ===
+													EBC_DOWNHILL_ROUTE
+														? 'true'
+														: undefined
+												}
 												onClick={() =>
 													handleSelect(
 														EBC_DOWNHILL_ROUTE,
@@ -508,13 +562,13 @@ export default function Sidebar({
 											>
 												<div className="sidebar-date-header sidebar-date-header--static sidebar-date-header--ebc">
 													{headerLabel} (downhill)
-													<span className="sidebar-date-header-ebc-badge">
-														EBC day
-													</span>
 												</div>
 												<div className="sidebar-day-single-route">
 													<span className="sidebar-day-single-route-name">
 														{EBC_DOWNHILL_ROUTE}
+													</span>
+													<span className="sidebar-date-header-ebc-badge">
+														EBC day
 													</span>
 												</div>
 											</button>

@@ -51,13 +51,17 @@ export default function MapContent({
 
       {waypoints.map((wp) => {
         const pinState = getPinState(wp.name, routeWaypointOrder)
+        const isEndpoint = pinState === "start" || pinState === "end"
+        // Start/end always labeled; other on-route names only when zoomed in
+        const showLabel =
+          nameVisible.has(wp.name) && (isEndpoint || showPlaceLabels)
         return (
           <Marker
             key={wp.name}
             position={[wp.coordinates[1], wp.coordinates[0]]}
             icon={pinIcons[pinState]}
           >
-            {showPlaceLabels && nameVisible.has(wp.name) && (
+            {showLabel && (
               <Tooltip
                 permanent
                 direction="top"

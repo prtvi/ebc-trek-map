@@ -17,17 +17,32 @@ function getShowQueryParam(): string | null {
 	return new URLSearchParams(window.location.search).get('show');
 }
 
-function findDayMetaByQ(q: string) {
-	return Object.values(routeMeta).find(
-		meta => meta.type === 'day' && meta.q === q,
+function findDayRouteByQ(q: string): {
+	name: string;
+	date: string;
+	q: string;
+} | null {
+	const entry = Object.entries(routeMeta).find(
+		([, meta]) => meta.type === 'day' && meta.q === q,
 	);
+	if (!entry) return null;
+	const [name, meta] = entry;
+	if (!meta.date || !meta.q) return null;
+	return { name, date: meta.date, q: meta.q };
 }
 
-function findDayQByDate(date: string): string | null {
-	const meta = Object.values(routeMeta).find(
-		m => m.type === 'day' && m.date === date && m.q,
+function findDayRouteByDate(date: string): {
+	name: string;
+	date: string;
+	q: string;
+} | null {
+	const entry = Object.entries(routeMeta).find(
+		([, meta]) => meta.type === 'day' && meta.date === date && meta.q,
 	);
-	return meta?.q ?? null;
+	if (!entry) return null;
+	const [name, meta] = entry;
+	if (!meta.date || !meta.q) return null;
+	return { name, date: meta.date, q: meta.q };
 }
 
 function setShowQueryParam(q: string | null) {
@@ -40,7 +55,6 @@ function setShowQueryParam(q: string | null) {
 
 // Day 10 has two TYPE_DAY routes sharing q=day10; deep links always land on uphill.
 const DAY10_Q = 'day10';
-const DAY_LOBUCHE_2_EBC = 'Lobuche - Everest Base Camp Monument';
 
 function getInitialDaySelection(): {
 	routeName: string | null;
@@ -48,10 +62,13 @@ function getInitialDaySelection(): {
 } {
 	const q = getShowQueryParam();
 	if (!q) return { routeName: null, dayDate: null };
+	const found = findDayRouteByQ(q);
+	if (!found) return { routeName: null, dayDate: null };
+	// day10: select the uphill segment (first day10 match), not whole-day mode
 	if (q === DAY10_Q) {
-		return { routeName: DAY_LOBUCHE_2_EBC, dayDate: null };
+		return { routeName: found.name, dayDate: null };
 	}
-	return { routeName: null, dayDate: findDayMetaByQ(q)?.date ?? null };
+	return { routeName: found.name, dayDate: found.date };
 }
 
 export function useRouteSelection(waypoints: Waypoint[]) {
@@ -125,8 +142,14 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 	}, []);
 
 	const handleDayDateClick = useCallback((date: string) => {
+		const dayRoute = findDayRouteByDate(date);
 		setSelectedDayDate(date);
-		setShowQueryParam(findDayQByDate(date));
+		if (dayRoute) {
+			setSelectedRouteName(dayRoute.name);
+			setShowQueryParam(dayRoute.q);
+		} else {
+			setShowQueryParam(null);
+		}
 	}, []);
 
 	const hasRoute = !!selectedRoute || dayWiseRoutesForSelectedDate.length > 0;
@@ -179,11 +202,19 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 			? routeMeta[routesForDisplay[0].name]?.date
 			: undefined);
 
+	const mediaEnabled = useMemo(() => {
+		if (routesForDisplay.length === 0) return false;
+		return routesForDisplay.some(
+			r => routeMeta[r.name]?.mediaEnabled === true,
+		);
+	}, [routesForDisplay]);
+
 	const pictureUrls = useMemo(() => {
-		if (routesForDisplay.length === 0) return [];
+		if (!mediaEnabled || routesForDisplay.length === 0) return [];
 		const urls: string[] = [];
 		const seen = new Set<string>();
 		for (const r of routesForDisplay) {
+			if (routeMeta[r.name]?.mediaEnabled !== true) continue;
 			const list = routeMeta[r.name]?.pictures ?? [];
 			for (const src of list) {
 				if (!seen.has(src)) {
@@ -193,7 +224,7 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 			}
 		}
 		return urls;
-	}, [routesForDisplay]);
+	}, [routesForDisplay, mediaEnabled]);
 
 	const notesText = useMemo(() => {
 		if (routesForDisplay.length === 0) return '';
@@ -251,6 +282,7 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 		locationsStr,
 		panelDay,
 		panelDate,
+		mediaEnabled,
 		pictureUrls,
 		notesText,
 		elevationProfile,

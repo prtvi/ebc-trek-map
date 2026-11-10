@@ -56,6 +56,7 @@ export default function App() {
     locationsStr,
     panelDay,
     panelDate,
+    mediaEnabled,
     pictureUrls,
     notesText,
     elevationProfile,
@@ -64,6 +65,15 @@ export default function App() {
     chartDay,
     chartDistanceKm,
   } = useRouteSelection(waypoints)
+
+  useEffect(() => {
+    if (!mediaEnabled && mobileMediaView !== 'map') {
+      setMobileMediaView('map')
+    }
+  }, [mediaEnabled, mobileMediaView])
+
+  const showGallery =
+    mediaEnabled && mobileMediaView === 'gallery'
 
   return (
     <div className="app-layout">
@@ -77,16 +87,17 @@ export default function App() {
         onDayDateClick={handleDayDateClick}
         mobileMediaView={mobileMediaView}
         onMobileMediaViewChange={setMobileMediaView}
+        mediaEnabled={mediaEnabled}
       />
 
       <div
         className={`app-main${
-          mobileMediaView === 'gallery' ? ' is-gallery-view' : ''
-        }`}
+          showGallery ? ' is-gallery-view' : ''
+        }${mediaEnabled ? '' : ' is-media-disabled'}`}
       >
         <div
           className={`app-map${
-            mobileMediaView === 'gallery' ? ' is-mobile-hidden' : ''
+            showGallery ? ' is-mobile-hidden' : ''
           }`}
         >
           <MapView
@@ -100,19 +111,23 @@ export default function App() {
           />
         </div>
 
-        <div
-          className={`app-gallery-mobile${
-            mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
-          }`}
-          aria-label="Gallery"
-          aria-hidden={mobileMediaView === 'map'}
-        >
-          <PictureCarousel pictures={pictureUrls} />
-        </div>
+        {mediaEnabled && (
+          <>
+            <div
+              className={`app-gallery-mobile${
+                mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
+              }`}
+              aria-label="Gallery"
+              aria-hidden={mobileMediaView === 'map'}
+            >
+              <PictureCarousel pictures={pictureUrls} />
+            </div>
 
-        <div className="app-pictures" aria-label="Pictures">
-          <PictureCarousel pictures={pictureUrls} />
-        </div>
+            <div className="app-pictures" aria-label="Pictures">
+              <PictureCarousel pictures={pictureUrls} />
+            </div>
+          </>
+        )}
 
         <div className="app-chart">
           {hasRoute && (
@@ -122,7 +137,7 @@ export default function App() {
               date={chartDate}
               day={chartDay}
               distanceKm={chartDistanceKm}
-              hideGraph={mobileMediaView === 'gallery'}
+              hideGraph={showGallery}
             />
           )}
         </div>

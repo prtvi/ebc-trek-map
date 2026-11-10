@@ -518,6 +518,17 @@ button:focus-visible {
   color: var(--sidebar-muted, #8fa3b5);
 }
 
+/* EBC badge: pin to top-right of the day card */
+.sidebar-day-group--single:has(.sidebar-date-header-ebc-badge),
+.sidebar-day-summary:has(.sidebar-date-header-ebc-badge) {
+  position: relative;
+}
+
+.sidebar-day-group--single:has(.sidebar-date-header-ebc-badge) .sidebar-date-header--static,
+.sidebar-day-summary:has(.sidebar-date-header-ebc-badge) .sidebar-date-header--static {
+  padding-right: 4.75rem;
+}
+
 .sidebar-day-group--single.sidebar-day-group--selected .sidebar-day-single-route-name,
 .sidebar-day-summary--selected .sidebar-day-single-route-name {
   color: #b7d7e6;
@@ -728,9 +739,12 @@ button:focus-visible {
 }
 
 .sidebar-date-header-ebc-badge {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.7rem;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
-  margin-left: auto;
   font-size: 0.5625rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -886,7 +900,7 @@ button:focus-visible {
   .sidebar-mobile-title {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: -0.03em;
     line-height: 1.3;
@@ -1012,6 +1026,25 @@ button:focus-visible {
     background: rgba(255, 255, 255, 0.025);
     border: 1px solid rgba(186, 214, 232, 0.08);
     border-radius: 12px;
+  }
+
+  /* Drawer base rule above must not wipe selected-day highlight */
+  .sidebar-drawer .sidebar-day-group--single.sidebar-day-group--selected {
+    background: rgba(126, 200, 227, 0.14);
+    border-color: rgba(126, 200, 227, 0.32);
+  }
+
+  .sidebar-drawer .sidebar-day-group--single.sidebar-day-group--selected:hover {
+    background: rgba(126, 200, 227, 0.18);
+  }
+
+  .sidebar-drawer .sidebar-day-group--single.sidebar-day-group--ebc.sidebar-day-group--selected {
+    background: rgba(61, 207, 142, 0.14);
+    border-color: rgba(61, 207, 142, 0.32);
+  }
+
+  .sidebar-drawer .sidebar-day-group--day-selected {
+    border-color: rgba(126, 200, 227, 0.22);
   }
 
   .sidebar-drawer .sidebar-day-group:last-child {
@@ -1168,7 +1201,7 @@ button:focus-visible {
     aspect-ratio: 2 / 1;
     flex-shrink: 0;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
     background: var(--app-surface-flat);
     border-top: 1px solid var(--app-line);
     padding: 0.75rem 1rem 0.25rem 1rem;
@@ -1179,18 +1212,20 @@ button:focus-visible {
     flex-direction: column;
     flex: 1;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .app-chart .elevation-chart-header {
     margin-bottom: 0.5rem;
     flex-shrink: 0;
+    overflow: visible;
   }
 
   .app-chart .elevation-chart-graph {
     flex: 1;
     min-height: 0;
     height: auto;
+    overflow: hidden;
     pointer-events: none; /* disable hover/touch tooltip on mobile */
   }
 
@@ -1297,6 +1332,10 @@ button:focus-visible {
     position: relative;
   }
 
+  .app-main.is-media-disabled .app-map {
+    grid-column: 1 / -1;
+  }
+
   .app-map.is-mobile-hidden {
     display: block !important;
   }
@@ -1307,6 +1346,10 @@ button:focus-visible {
     min-height: 0;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    container-type: size;
     background:
       radial-gradient(ellipse 90% 60% at 50% 0%, rgba(126, 200, 227, 0.1), transparent 55%),
       radial-gradient(ellipse 70% 40% at 100% 100%, rgba(212, 168, 75, 0.06), transparent 50%),
@@ -1314,28 +1357,92 @@ button:focus-visible {
     border-left: 1px solid var(--app-line);
   }
 
+  /* Match mobile gallery: square 3:4 frame, chrome overlays the image */
   .app-pictures .picture-carousel {
-    background: transparent;
-    container-type: size;
+    flex: 0 1 auto;
+    width: min(100cqi, calc(100cqh * 3 / 4));
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(126, 200, 227, 0.1), transparent 60%),
+      var(--app-ink-deep);
+    border: 1px solid var(--app-line);
+    border-radius: 0;
   }
 
   .app-pictures .picture-carousel-track {
-    flex: 0 1 auto;
-    width: min(100cqi, calc((100cqh - 2.5rem) * 3 / 4));
-    max-width: 100%;
-    max-height: calc(100% - 2.5rem);
-    height: auto;
-    aspect-ratio: 3 / 4;
-    margin: auto;
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid var(--app-line);
-    border-radius: 12px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    position: absolute;
+    inset: 0;
+    flex: none;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    aspect-ratio: auto;
+    margin: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 
   .app-pictures .picture-carousel-slide,
   .app-pictures .picture-carousel-image {
     background: transparent;
+  }
+
+  .app-pictures .picture-carousel-slide .picture-carousel-image,
+  .app-pictures .picture-carousel-track > .picture-carousel-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .app-pictures .picture-carousel-btn {
+    z-index: 2;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: rgba(16, 20, 24, 0.55);
+    border-color: var(--app-line-strong);
+    backdrop-filter: blur(6px);
+  }
+
+  .app-pictures .picture-carousel-btn:hover {
+    background: rgba(126, 200, 227, 0.18);
+    border-color: var(--app-ice-mid);
+  }
+
+  .app-pictures .picture-carousel-btn--prev {
+    left: 0.75rem;
+  }
+
+  .app-pictures .picture-carousel-btn--next {
+    right: 0.75rem;
+  }
+
+  .app-pictures .picture-carousel-dots {
+    position: absolute;
+    left: 50%;
+    right: auto;
+    bottom: 0.65rem;
+    transform: translateX(-50%);
+    z-index: 2;
+    padding: 0.35rem 0.5rem;
+    margin: 0;
+    pointer-events: auto;
+  }
+
+  .app-pictures .picture-carousel-counter {
+    bottom: 0.7rem;
+    right: 0.75rem;
+    z-index: 2;
   }
 }
 
@@ -1879,11 +1986,13 @@ button:focus-visible {
 }
 
 .elevation-chart-title {
-  margin: 0 0 0.25rem;
-  font-family: var(--font-display);
+  margin: 0 0 0.35rem;
+  /* Outfit at this size — Syne's "g" descender looks clipped below ~1rem */
+  font-family: var(--font-ui);
   font-size: 0.9rem;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
   color: var(--app-text-bright);
 }
 
