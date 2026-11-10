@@ -5,7 +5,15 @@ type MobileMediaView = 'map' | 'gallery'
 interface Props {
 	fullRoutes: any[];
 	dayRoutes: any[];
-	routeMeta: Record<string, { date: string; day?: string }>;
+	routeMeta: Record<
+		string,
+		{
+			date: string;
+			day?: string;
+			type?: 'full' | 'day' | 'p2p';
+			q?: string;
+		}
+	>;
 	selected: string;
 	selectedDayDate: string | null;
 	onSelect: (name: string) => void;
@@ -50,6 +58,28 @@ function formatDate(iso: string) {
 		month: 'short',
 		year: 'numeric',
 	});
+}
+
+/** Prefer TYPE_DAY meta name for the date; else first→last of the segment chain. */
+function getFullDayRouteLabel(
+	dateStr: string,
+	routes: { name: string }[],
+	meta: Props['routeMeta'],
+	preferredName?: string,
+): string {
+	if (preferredName && meta[preferredName]?.type === 'day') {
+		return preferredName;
+	}
+	const dayEntry = Object.entries(meta).find(
+		([, m]) => m.date === dateStr && m.type === 'day' && m.q,
+	);
+	if (dayEntry) return dayEntry[0];
+	if (routes.length === 0) return '';
+	if (routes.length === 1) return routes[0].name;
+	const start = routes[0].name.split(' - ')[0]?.trim() ?? '';
+	const endParts = routes[routes.length - 1].name.split(' - ');
+	const end = endParts[endParts.length - 1]?.trim() ?? '';
+	return start && end ? `${start} - ${end}` : routes[0].name;
 }
 
 const DATE_GROUP_COLORS = [
@@ -202,16 +232,47 @@ export default function Sidebar({
 				aria-hidden={!menuOpen}
 			>
 				<div className="sidebar-header">
-					<h2 className="sidebar-title">
-						{TITLE}
-					</h2>
+					<div className="sidebar-header-top">
+						<p className="sidebar-eyebrow">Everest Base Camp</p>
+						<button
+							type="button"
+							className="sidebar-drawer-close"
+							onClick={() => setMenuOpen(false)}
+							aria-label="Close menu"
+						>
+							<svg
+								width="18"
+								height="18"
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								strokeWidth="2"
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								aria-hidden
+							>
+								<line x1="18" y1="6" x2="6" y2="18" />
+								<line x1="6" y1="6" x2="18" y2="18" />
+							</svg>
+						</button>
+					</div>
+					<h2 className="sidebar-title">{TITLE}</h2>
+					<p className="sidebar-meta">
+						<span>125 km</span>
+						<span className="sidebar-meta-dot" aria-hidden />
+						<span>12 days</span>
+						<span className="sidebar-meta-dot" aria-hidden />
+						<span>5,364 m</span>
+					</p>
 				</div>
 				<div className="sidebar-routes">
 				{/* Full route at top */}
 				{fullRoutes.length > 0 && (
 					<>
-						<div className="sidebar-full-route-header">
-							Full route
+						<div className="sidebar-section-label">
+							<span className="sidebar-section-label-text">
+								Full route
+							</span>
 						</div>
 						{fullRoutes.map(route => (
 							<div
@@ -233,8 +294,10 @@ export default function Sidebar({
 				{/* Day wise routes */}
 				{dayGroups.length > 0 && (
 					<>
-						<div className="sidebar-day-route-header">
-							Day wise route
+						<div className="sidebar-section-label sidebar-section-label--spaced">
+							<span className="sidebar-section-label-text">
+								Day-wise routes
+							</span>
 						</div>
 						{dayGroups.map(group => {
 							const dateStr = group.dateStr;
@@ -266,71 +329,176 @@ export default function Sidebar({
 										? formatDate(dateStr).toUpperCase()
 										: '';
 
+							const groupIndex =
+								dateStr != null
+									? dateToGroupIndex[dateStr] ?? -1
+									: -1;
+							const groupAccentColor =
+								groupIndex >= 0
+									? DATE_GROUP_COLORS[
+											groupIndex % DATE_GROUP_COLORS.length
+										]
+									: null;
+							const treeStyle = groupAccentColor
+								? {
+										['--date-accent' as string]:
+											groupAccentColor,
+									}
+								: undefined;
+
+							const isEbcSplit =
+								isEbcDay &&
+								ebcUphillRoutes !== null &&
+								ebcDownhillRoutes !== null;
+							const isSingleRouteDay =
+								!isEbcSplit && group.routes.length === 1;
+							const singleRoute = isSingleRouteDay
+								? group.routes[0]
+								: null;
+							const isSingleDaySelected =
+								!!dateStr &&
+								(selectedDayDate === dateStr ||
+									(!!singleRoute &&
+										selected === singleRoute.name &&
+										!selectedDayDate));
+
+							const dayLabel =
+								dateStr && firstRoute
+									? routeMeta[firstRoute.name]?.day
+										? `${routeMeta[firstRoute.name].day} - ${formatDate(dateStr)}`
+										: formatDate(dateStr)
+									: '';
+
+							if (isSingleRouteDay && singleRoute && dateStr) {
+								return (
+									<button
+										key={dateStr}
+										type="button"
+										className={`sidebar-day-group sidebar-day-group--single${
+											isSingleDaySelected
+												? ' sidebar-day-group--selected'
+												: ''
+										}${isEbcDay ? ' sidebar-day-group--ebc' : ''}`}
+										style={treeStyle}
+										onClick={() =>
+											handleDayDateClick(dateStr)
+										}
+									>
+										<div
+											className={`sidebar-date-header sidebar-date-header--static${
+												isEbcDay
+													? ' sidebar-date-header--ebc'
+													: ''
+											}`}
+										>
+											{dayLabel}
+											{isEbcDay && (
+												<span className="sidebar-date-header-ebc-badge">
+													EBC day
+												</span>
+											)}
+										</div>
+										<div className="sidebar-day-single-route">
+											<span className="sidebar-day-single-route-name">
+												{singleRoute.name}
+											</span>
+										</div>
+									</button>
+								);
+							}
+
+							const fullDayLabel =
+								dateStr && !isEbcSplit
+									? getFullDayRouteLabel(
+											dateStr,
+											group.routes,
+											routeMeta,
+										)
+									: '';
+							const isMultiDaySelected =
+								!!dateStr && selectedDayDate === dateStr;
+
 							return (
 								<div
 									key={dateStr || 'no-date'}
-									className="sidebar-day-group"
+									className={`sidebar-day-group${
+										isMultiDaySelected && !isEbcSplit
+											? ' sidebar-day-group--day-selected'
+											: ''
+									}`}
+									style={treeStyle}
 								>
-									{dateStr &&
-										firstRoute &&
-										!(
-											isEbcDay && ebcUphillRoutes !== null
-										) && (
-											<button
-												type="button"
-												className={`sidebar-date-header ${isEbcDay ? 'sidebar-date-header--ebc' : ''} ${selectedDayDate === dateStr ? 'sidebar-date-header--selected' : ''}`}
-												onClick={() =>
-													handleDayDateClick(dateStr)
-												}
+									{dateStr && firstRoute && !isEbcSplit && (
+										<button
+											type="button"
+											className={`sidebar-day-summary${
+												isMultiDaySelected
+													? ' sidebar-day-summary--selected'
+													: ''
+											}`}
+											onClick={() =>
+												handleDayDateClick(dateStr)
+											}
+										>
+											<div
+												className={`sidebar-date-header sidebar-date-header--static${
+													isEbcDay
+														? ' sidebar-date-header--ebc'
+														: ''
+												}`}
 											>
-												{routeMeta[firstRoute.name]?.day
-													? `${routeMeta[firstRoute.name].day} - ${formatDate(dateStr)}`
-													: formatDate(dateStr)}
+												{dayLabel}
 												{isEbcDay && (
 													<span className="sidebar-date-header-ebc-badge">
 														EBC day
 													</span>
 												)}
-											</button>
-										)}
-									{isEbcDay &&
-									ebcUphillRoutes !== null &&
-									ebcDownhillRoutes !== null ? (
+											</div>
+											{fullDayLabel && (
+												<div className="sidebar-day-single-route">
+													<span className="sidebar-day-single-route-name">
+														{fullDayLabel}
+													</span>
+												</div>
+											)}
+										</button>
+									)}
+									{isEbcSplit ? (
 										<>
 											<button
 												type="button"
-												className={`sidebar-date-header sidebar-date-header--ebc ${selected === EBC_UPHILL_ROUTE ? 'sidebar-date-header--selected' : ''}`}
+												className={`sidebar-day-summary sidebar-day-summary--ebc${
+													selected === EBC_UPHILL_ROUTE
+														? ' sidebar-day-summary--selected'
+														: ''
+												}`}
 												onClick={() =>
 													handleSelect(EBC_UPHILL_ROUTE)
 												}
 											>
-												{headerLabel} (uphill)
-												<span className="sidebar-date-header-ebc-badge">
-													EBC day
-												</span>
+												<div className="sidebar-date-header sidebar-date-header--static sidebar-date-header--ebc">
+													{headerLabel} (uphill)
+													<span className="sidebar-date-header-ebc-badge">
+														EBC day
+													</span>
+												</div>
+												<div className="sidebar-day-single-route">
+													<span className="sidebar-day-single-route-name">
+														{EBC_UPHILL_ROUTE}
+													</span>
+												</div>
 											</button>
-											{ebcUphillRoutes.map(route => {
-												const routeGroupIndex =
-													dateToGroupIndex[dateStr] ??
-													-1;
-												const routeAccentColor =
-													routeGroupIndex >= 0
-														? DATE_GROUP_COLORS[
-																routeGroupIndex %
-																	DATE_GROUP_COLORS.length
-															]
-														: null;
-												return (
+											<div className="sidebar-day-tree sidebar-day-tree--ebc">
+												{ebcUphillRoutes!.map(route => (
 													<div
 														key={route.name}
-														className="sidebar-route-wrap sidebar-route-wrap--ebc-day"
+														className="sidebar-route-wrap sidebar-route-wrap--branch sidebar-route-wrap--ebc-day"
 													>
 														{renderRouteItem(
 															route,
 															{
 																isFullRoute: false,
-																accentColor:
-																	routeAccentColor,
+																accentColor: null,
 																isEbcDay: true,
 																showAsSelected:
 																	selected ===
@@ -338,92 +506,94 @@ export default function Sidebar({
 															},
 														)}
 													</div>
-												);
-											})}
+												))}
+											</div>
 											<button
 												type="button"
-												className={`sidebar-date-header sidebar-date-header--ebc ${selected === EBC_DOWNHILL_ROUTE ? 'sidebar-date-header--selected' : ''}`}
+												className={`sidebar-day-summary sidebar-day-summary--ebc${
+													selected ===
+													EBC_DOWNHILL_ROUTE
+														? ' sidebar-day-summary--selected'
+														: ''
+												}`}
 												onClick={() =>
-													handleSelect(EBC_DOWNHILL_ROUTE)
+													handleSelect(
+														EBC_DOWNHILL_ROUTE,
+													)
 												}
 											>
-												{headerLabel} (downhill)
-												<span className="sidebar-date-header-ebc-badge">
-													EBC day
-												</span>
+												<div className="sidebar-date-header sidebar-date-header--static sidebar-date-header--ebc">
+													{headerLabel} (downhill)
+													<span className="sidebar-date-header-ebc-badge">
+														EBC day
+													</span>
+												</div>
+												<div className="sidebar-day-single-route">
+													<span className="sidebar-day-single-route-name">
+														{EBC_DOWNHILL_ROUTE}
+													</span>
+												</div>
 											</button>
-											{ebcDownhillRoutes.map(route => {
-												const routeGroupIndex =
-													dateToGroupIndex[dateStr] ??
-													-1;
-												const routeAccentColor =
-													routeGroupIndex >= 0
-														? DATE_GROUP_COLORS[
-																routeGroupIndex %
-																	DATE_GROUP_COLORS.length
-															]
-														: null;
+											<div className="sidebar-day-tree sidebar-day-tree--ebc">
+												{ebcDownhillRoutes!.map(
+													route => (
+														<div
+															key={route.name}
+															className="sidebar-route-wrap sidebar-route-wrap--branch sidebar-route-wrap--ebc-day"
+														>
+															{renderRouteItem(
+																route,
+																{
+																	isFullRoute: false,
+																	accentColor: null,
+																	isEbcDay: true,
+																	showAsSelected:
+																		selected ===
+																		route.name,
+																},
+															)}
+														</div>
+													),
+												)}
+											</div>
+										</>
+									) : (
+										<div className="sidebar-day-tree">
+											{group.routes.map(route => {
+												const routeDateStr =
+													routeMeta[route.name]?.date;
+												const routeEbcDay =
+													routeDateStr ===
+													EBC_REACH_DATE;
+												const showAsSelected =
+													selected === route.name &&
+													(!selectedDayDate ||
+														routeDateStr ===
+															selectedDayDate);
 												return (
 													<div
 														key={route.name}
-														className="sidebar-route-wrap sidebar-route-wrap--ebc-day"
+														className={`sidebar-route-wrap sidebar-route-wrap--branch${
+															routeEbcDay
+																? ' sidebar-route-wrap--ebc-day'
+																: ''
+														}`}
 													>
 														{renderRouteItem(
 															route,
 															{
 																isFullRoute: false,
-																accentColor:
-																	routeAccentColor,
-																isEbcDay: true,
-																showAsSelected:
-																	selected ===
-																	route.name,
+																accentColor: null,
+																isEbcDay:
+																	routeEbcDay,
+																showAsSelected,
 															},
 														)}
 													</div>
 												);
 											})}
-										</>
-									) : (
-										group.routes.map(route => {
-											const routeDateStr =
-												routeMeta[route.name]?.date;
-											const routeGroupIndex =
-												routeDateStr != null
-													? dateToGroupIndex[
-															routeDateStr
-														]
-													: -1;
-											const routeAccentColor =
-												routeGroupIndex >= 0
-													? DATE_GROUP_COLORS[
-															routeGroupIndex %
-																DATE_GROUP_COLORS.length
-														]
-													: null;
-											const routeEbcDay =
-												routeDateStr === EBC_REACH_DATE;
-											const showAsSelected =
-												selected === route.name &&
-												(!selectedDayDate ||
-													routeDateStr ===
-														selectedDayDate);
-											return (
-												<div
-													key={route.name}
-													className={`sidebar-route-wrap ${routeEbcDay ? 'sidebar-route-wrap--ebc-day' : ''}`}
-												>
-													{renderRouteItem(route, {
-														isFullRoute: false,
-														accentColor:
-															routeAccentColor,
-														isEbcDay: routeEbcDay,
-														showAsSelected,
-													})}
-												</div>
-											);
-										}									)
-								)}
+										</div>
+									)}
 							</div>
 						);
 					})}
