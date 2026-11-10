@@ -67,12 +67,12 @@ export default function RightPanel({
 				)}
 			</dl>
 			<div className="right-panel-extra">
-				<label className="right-panel-notes-label">Notes</label>
+				<label className="right-panel-notes-label">Trail notes</label>
 				<div className="right-panel-notes-content">
 					{notes ? (
 						<p className="right-panel-notes-text">{notes}</p>
 					) : (
-						<span className="right-panel-notes-empty">No notes for this route.</span>
+						<span className="right-panel-notes-empty">No trail notes for this route.</span>
 					)}
 				</div>
 			</div>

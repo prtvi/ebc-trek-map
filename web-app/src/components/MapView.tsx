@@ -1,7 +1,6 @@
-import { MapContainer, TileLayer } from "react-leaflet"
-import type { Map } from "leaflet"
+import { MapContainer, TileLayer, useMap } from "react-leaflet"
 import { LatLngBounds } from "leaflet"
-import { useEffect, useRef } from "react"
+import { useEffect } from "react"
 import MapContent from "./map/MapContent"
 import type { GeoJsonObject } from "geojson"
 
@@ -19,6 +18,56 @@ export interface MapViewProps {
   routeWaypointOrder?: string[]
 }
 
+function extractCoords(geo: GeoJsonObject): [number, number][] {
+  const out: [number, number][] = []
+
+  const push = (c: any) => {
+    if (!c) return
+    if (typeof c[0] === "number" && typeof c[1] === "number") {
+      out.push([c[0], c[1]])
+      return
+    }
+    for (const inner of c) push(inner)
+  }
+
+  const asAny = geo as any
+  if (asAny.type === "FeatureCollection") {
+    for (const f of asAny.features ?? []) push(f?.geometry?.coordinates)
+  } else if (asAny.type === "Feature") {
+    push(asAny.geometry?.coordinates)
+  } else {
+    push(asAny.coordinates)
+  }
+
+  return out
+}
+
+/** Fits the map once Leaflet is ready — must live inside MapContainer. */
+function FitBoundsToRoutes({
+  route,
+  routes,
+}: {
+  route?: MapViewProps["route"]
+  routes?: MapViewProps["routes"]
+}) {
+  const map = useMap()
+
+  useEffect(() => {
+    const list = routes?.length ? routes : route ? [route] : []
+    if (list.length === 0) return
+
+    const allCoords = list.flatMap((r) => extractCoords(r.geojson))
+    if (allCoords.length === 0) return
+
+    const bounds = new LatLngBounds(allCoords.map((c) => [c[1], c[0]]))
+    // Layout may still be settling on deep-link load; invalidate before fit.
+    map.invalidateSize()
+    map.fitBounds(bounds, { padding: [40, 40] })
+  }, [map, route, routes])
+
+  return null
+}
+
 export default function MapView({
   route,
   routes,
@@ -26,52 +75,15 @@ export default function MapView({
   waypointNamesToShow,
   routeWaypointOrder,
 }: MapViewProps) {
-  const mapRef = useRef<Map | null>(null)
-
-  function extractCoords(geo: GeoJsonObject): [number, number][] {
-    const out: [number, number][] = []
-
-    const push = (c: any) => {
-      if (!c) return
-      if (typeof c[0] === "number" && typeof c[1] === "number") {
-        out.push([c[0], c[1]])
-        return
-      }
-      for (const inner of c) push(inner)
-    }
-
-    const asAny = geo as any
-    if (asAny.type === "FeatureCollection") {
-      for (const f of asAny.features ?? []) push(f?.geometry?.coordinates)
-    } else if (asAny.type === "Feature") {
-      push(asAny.geometry?.coordinates)
-    } else {
-      push(asAny.coordinates)
-    }
-
-    return out
-  }
-
-  useEffect(() => {
-    const list = routes?.length ? routes : route ? [route] : []
-    if (list.length === 0 || !mapRef.current) return
-
-    const allCoords = list.flatMap((r) => extractCoords(r.geojson))
-    if (allCoords.length === 0) return
-
-    const bounds = new LatLngBounds(allCoords.map((c) => [c[1], c[0]]))
-    mapRef.current.fitBounds(bounds, { padding: [40, 40] })
-  }, [route, routes])
-
   return (
     <div className="map-view-wrapper">
       <MapContainer
         center={MAP_CENTER}
         zoom={MAP_ZOOM}
         style={{ height: "100%", width: "100%" }}
-        ref={mapRef}
       >
         <TileLayer attribution={TILE_ATTRIBUTION} url={TILE_URL} />
+        <FitBoundsToRoutes route={route} routes={routes} />
         <MapContent
           route={route}
           routes={routes}

@@ -93,7 +93,7 @@ const DATE_GROUP_COLORS = [
 	'#8aefb8',
 ];
 
-const TITLE = 'Prithvi and Koushik\'s EBC Trek'
+const TITLE = 'Prithvi & Koushik\'s EBC Trek'
 const EBC_REACH_DATE = '2026-02-23';
 const EBC_UPHILL_ROUTE = 'Lobuche - Everest Base Camp Monument';
 const EBC_DOWNHILL_ROUTE = 'Everest Base Camp Monument - Lobuche';
