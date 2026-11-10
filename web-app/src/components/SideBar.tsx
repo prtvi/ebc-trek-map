@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+type MobileMediaView = 'map' | 'gallery'
+
 interface Props {
 	fullRoutes: any[];
 	dayRoutes: any[];
@@ -8,6 +10,8 @@ interface Props {
 	selectedDayDate: string | null;
 	onSelect: (name: string) => void;
 	onDayDateClick: (date: string) => void;
+	mobileMediaView: MobileMediaView;
+	onMobileMediaViewChange: (view: MobileMediaView) => void;
 }
 
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -72,6 +76,8 @@ export default function Sidebar({
 	selectedDayDate,
 	onSelect,
 	onDayDateClick,
+	mobileMediaView,
+	onMobileMediaViewChange,
 }: Props) {
 	const [menuOpen, setMenuOpen] = useState(false);
 
@@ -139,7 +145,7 @@ export default function Sidebar({
 
 	return (
 		<aside className="sidebar">
-			{/* Mobile: hamburger + title only; route name shown in elevation chart and notes */}
+			{/* Mobile: hamburger + title + map/gallery segmented control */}
 			<div className="sidebar-mobile-header">
 				<button
 					type="button"
@@ -154,6 +160,34 @@ export default function Sidebar({
 					<h2 className="sidebar-mobile-title">
 						{TITLE}
 					</h2>
+				</div>
+				<div
+					className="app-media-switch"
+					role="tablist"
+					aria-label="Map or gallery"
+				>
+					<button
+						type="button"
+						role="tab"
+						className={`app-media-switch-btn${
+							mobileMediaView === 'map' ? ' is-active' : ''
+						}`}
+						aria-selected={mobileMediaView === 'map'}
+						onClick={() => onMobileMediaViewChange('map')}
+					>
+						Map
+					</button>
+					<button
+						type="button"
+						role="tab"
+						className={`app-media-switch-btn${
+							mobileMediaView === 'gallery' ? ' is-active' : ''
+						}`}
+						aria-selected={mobileMediaView === 'gallery'}
+						onClick={() => onMobileMediaViewChange('gallery')}
+					>
+						Gallery
+					</button>
 				</div>
 			</div>
 

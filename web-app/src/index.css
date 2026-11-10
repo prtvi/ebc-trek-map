@@ -96,6 +96,12 @@ button:focus-visible {
   box-sizing: border-box;
 }
 
+/* Mobile-only map/gallery controls (shown in max-width: 768px) */
+.app-media-switch,
+.app-gallery-mobile {
+  display: none;
+}
+
 /* Sidebar */
 .sidebar {
   width: 280px;
@@ -440,13 +446,13 @@ button:focus-visible {
 
   .sidebar-mobile-header {
     display: grid;
-    grid-template-columns: min-content 1fr;
+    grid-template-columns: min-content minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.5rem;
     width: 100%;
     min-width: 0;
     max-width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 0.75rem 0.75rem 1rem;
     min-height: 56px;
     overflow: hidden;
   }
@@ -470,6 +476,60 @@ button:focus-visible {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* Segmented control: right-aligned next to title */
+  .sidebar-mobile-header .app-media-switch {
+    display: inline-flex;
+    align-items: stretch;
+    gap: 0;
+    width: auto;
+    padding: 0;
+    margin-left: auto;
+    justify-self: end;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 9px;
+    overflow: hidden;
+  }
+
+  .sidebar-mobile-header .app-media-switch-btn {
+    flex: 0 0 auto;
+    min-height: 1.875rem;
+    padding: 0.3rem 0.65rem;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: #94a3b8;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+
+  .sidebar-mobile-header .app-media-switch-btn + .app-media-switch-btn {
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sidebar-mobile-header .app-media-switch-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: #e2e8f0;
+    border-color: transparent;
+  }
+
+  .sidebar-mobile-header .app-media-switch-btn.is-active {
+    background: rgba(59, 130, 246, 0.28);
+    color: #e0f2fe;
+    border-color: transparent;
+  }
+
+  .sidebar-mobile-header .app-media-switch-btn:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: -2px;
+    z-index: 1;
   }
 
   .sidebar-drawer-backdrop {
@@ -537,7 +597,7 @@ button:focus-visible {
     margin-top: 0;
   }
 
-  /* Mobile: hide only pictures; show map + elevation chart + notes */
+  /* Mobile: desktop side-panel carousel stays hidden */
   .app-pictures {
     display: none !important;
   }
@@ -555,7 +615,7 @@ button:focus-visible {
     z-index: 0;
   }
 
-  /* Map: full width, 4:3 aspect ratio (width:height); low z-index so sidebar drawer appears above */
+  /* Map: full width square; low z-index so sidebar drawer appears above */
   .app-map {
     display: block !important;
     width: 100%;
@@ -567,7 +627,93 @@ button:focus-visible {
     overflow: hidden;
   }
 
-  /* Elevation chart: below map, height = 66% of map (map is 4:3 so chart is 2:1) */
+  .app-map.is-mobile-hidden {
+    display: none !important;
+  }
+
+  /* Inline gallery: taller than map; chrome overlays the image */
+  .app-gallery-mobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: min(78dvh, 100vw * 1.25);
+    min-height: 22rem;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+    background: #15171a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .app-gallery-mobile.is-mobile-hidden {
+    display: none !important;
+  }
+
+  .app-gallery-mobile .picture-carousel {
+    flex: 1;
+    min-height: 0;
+    width: 100%;
+  }
+
+  .app-gallery-mobile .picture-carousel-track {
+    position: absolute;
+    inset: 0;
+    flex: none;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+  }
+
+  .app-gallery-mobile .picture-carousel-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    object-fit: contain;
+  }
+
+  .app-gallery-mobile .picture-carousel-btn {
+    z-index: 2;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.28);
+    backdrop-filter: none;
+  }
+
+  .app-gallery-mobile .picture-carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .app-gallery-mobile .picture-carousel-btn--prev {
+    left: 0.75rem;
+  }
+
+  .app-gallery-mobile .picture-carousel-btn--next {
+    right: 0.75rem;
+  }
+
+  .app-gallery-mobile .picture-carousel-dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0.65rem;
+    z-index: 2;
+    padding: 0.35rem 0.5rem;
+    margin: 0;
+    pointer-events: auto;
+  }
+
+  .app-gallery-mobile .picture-carousel-counter {
+    bottom: 0.7rem;
+    right: 0.75rem;
+    z-index: 2;
+  }
+
+  /* Elevation chart: below map/gallery */
   .app-chart {
     position: relative;
     display: flex !important;
@@ -580,13 +726,6 @@ button:focus-visible {
     background: #1a1d21;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
     padding: 0.75rem 1rem 0.25rem 1rem;
-  }
-
-  .app-chart-pictures-btn {
-    position: absolute;
-    top: 0.75rem;
-    right: 1rem;
-    z-index: 2;
   }
 
   .app-chart .elevation-chart {
@@ -638,6 +777,43 @@ button:focus-visible {
   .app-notes-wrap .right-panel-locations {
     display: none !important;
   }
+
+  /* Gallery view: keep route + date header; collapse graph so it leaves no gap */
+  .app-main.is-gallery-view .app-chart {
+    aspect-ratio: unset;
+    height: auto;
+    flex: 0 0 auto;
+    min-height: 0;
+    padding-top: 0.75rem;
+    padding-bottom: 0;
+  }
+
+  .app-main.is-gallery-view .app-chart .elevation-chart {
+    flex: 0 0 auto;
+    min-height: 0;
+  }
+
+  .app-main.is-gallery-view .app-chart .elevation-chart-header {
+    margin-bottom: 0;
+  }
+
+  .app-main.is-gallery-view .app-chart .elevation-chart-graph {
+    display: none !important;
+    flex: 0 0 0;
+    height: 0 !important;
+    min-height: 0 !important;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .app-main.is-gallery-view .app-notes-wrap .right-panel-notes {
+    padding-top: 0.75rem;
+  }
+
+  .app-main.is-gallery-view .app-notes-wrap .right-panel-heading-row {
+    display: none;
+  }
 }
 
 /* Desktop: grid with map + carousel/notes on the right; fixed viewport height */
@@ -659,11 +835,20 @@ button:focus-visible {
     min-width: 0;
   }
 
+  .app-media-switch,
+  .app-gallery-mobile {
+    display: none !important;
+  }
+
   .app-map {
     grid-column: 1;
     grid-row: 1;
     min-height: 0;
     position: relative;
+  }
+
+  .app-map.is-mobile-hidden {
+    display: block !important;
   }
 
   .app-pictures {
@@ -726,14 +911,18 @@ button:focus-visible {
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(0, 0, 0, 0.5);
   color: #fff;
-  font-size: 1.5rem;
-  line-height: 1;
+  line-height: 0;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.picture-carousel-btn svg {
+  display: block;
+  flex-shrink: 0;
 }
 
 .picture-carousel-btn:hover {

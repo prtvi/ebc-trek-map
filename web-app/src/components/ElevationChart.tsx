@@ -8,6 +8,7 @@ interface Props {
 	date?: string;
 	day?: string;
 	distanceKm?: number;
+	hideGraph?: boolean;
 }
 
 const MOBILE_BREAKPOINT = '(max-width: 768px)';
@@ -42,7 +43,14 @@ function formatChartDate(iso: string) {
 	});
 }
 
-export default function ElevationChart({ data, title, date, day, distanceKm }: Props) {
+export default function ElevationChart({
+	data,
+	title,
+	date,
+	day,
+	distanceKm,
+	hideGraph = false,
+}: Props) {
 	const [isMobile, setIsMobile] = useState(false);
 
 	useEffect(() => {
@@ -69,7 +77,7 @@ export default function ElevationChart({ data, title, date, day, distanceKm }: P
 	};
 
 	return (
-		<div className="elevation-chart">
+		<div className={`elevation-chart${hideGraph ? ' elevation-chart--header-only' : ''}`}>
 			{(title || date != null || distanceKm != null) && (
 				<div className="elevation-chart-header">
 					{title && <h3 className="elevation-chart-title">{title}</h3>}
@@ -85,36 +93,38 @@ export default function ElevationChart({ data, title, date, day, distanceKm }: P
 					</div>
 				</div>
 			)}
-			<div className="elevation-chart-graph">
-				<ResponsiveContainer width="100%" height="100%">
-					<LineChart data={data} margin={{ top: 20, right: 20, bottom: 8, left: 20 }}>
-						<XAxis
-							dataKey="index"
-							tickFormatter={formatXTick}
-							tick={{ style: { fontSize: '0.7rem' } }}
-							label={{ value: 'Distance (km)', position: 'insideBottom', offset: -8, style: { fontSize: '0.7rem' } }}
-						/>
-						<YAxis
-							dataKey="elevation"
-							domain={yDomain}
-							tickFormatter={(value) => `${value} m`}
-							tick={{ style: { fontSize: '0.7rem' } }}
-							label={{ value: 'Elevation (m)', angle: -90, position: 'insideLeft', offset: -12, style: { fontSize: '0.7rem' }, dy: 35 }}
-						/>
-						<Tooltip
-								content={
-									isMobile
-										? () => null
-										: <ChartTooltipContent maxIndex={maxIndex} distanceKm={distanceKm} />
-								}
-								cursor={!isMobile}
-								contentStyle={isMobile ? undefined : { padding: 0, minWidth: 'auto' }}
-								wrapperStyle={{ outline: 'none' }}
+			{!hideGraph && (
+				<div className="elevation-chart-graph">
+					<ResponsiveContainer width="100%" height="100%">
+						<LineChart data={data} margin={{ top: 20, right: 20, bottom: 8, left: 20 }}>
+							<XAxis
+								dataKey="index"
+								tickFormatter={formatXTick}
+								tick={{ style: { fontSize: '0.7rem' } }}
+								label={{ value: 'Distance (km)', position: 'insideBottom', offset: -8, style: { fontSize: '0.7rem' } }}
 							/>
-						<Line type="monotone" dataKey="elevation" stroke="#16a34a" dot={false} />
-					</LineChart>
-				</ResponsiveContainer>
-			</div>
+							<YAxis
+								dataKey="elevation"
+								domain={yDomain}
+								tickFormatter={(value) => `${value} m`}
+								tick={{ style: { fontSize: '0.7rem' } }}
+								label={{ value: 'Elevation (m)', angle: -90, position: 'insideLeft', offset: -12, style: { fontSize: '0.7rem' }, dy: 35 }}
+							/>
+							<Tooltip
+									content={
+										isMobile
+											? () => null
+											: <ChartTooltipContent maxIndex={maxIndex} distanceKm={distanceKm} />
+									}
+									cursor={!isMobile}
+									contentStyle={isMobile ? undefined : { padding: 0, minWidth: 'auto' }}
+									wrapperStyle={{ outline: 'none' }}
+								/>
+							<Line type="monotone" dataKey="elevation" stroke="#16a34a" dot={false} />
+						</LineChart>
+					</ResponsiveContainer>
+				</div>
+			)}
 		</div>
 	);
 }

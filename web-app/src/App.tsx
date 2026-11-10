@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { routeMeta } from './data/routeMeta'
 import {
   fullRoutes,
@@ -11,14 +11,16 @@ import Sidebar from './components/SideBar'
 import ElevationChart from './components/ElevationChart'
 import RightPanel from './components/RightPanel'
 import PictureCarousel from './components/PictureCarousel'
-import CarouselPopup from './components/CarouselPopup'
+
+type MobileMediaView = 'map' | 'gallery'
 
 const WEBSITE_VISIT_URL =
   'https://hotwheeeelsengine.onrender.com/api/capture_website_visit'
 
 export default function App() {
   const waypoints = useMemo(mergeWaypoints, [])
-  const [carouselPopupOpen, setCarouselPopupOpen] = useState(false)
+  const [mobileMediaView, setMobileMediaView] =
+    useState<MobileMediaView>('map')
 
   useEffect(() => {
     const alreadyNotified = sessionStorage.getItem('homepage-webhook-sent')
@@ -73,10 +75,20 @@ export default function App() {
         selectedDayDate={selectedDayDate}
         onSelect={handleSelectRoute}
         onDayDateClick={handleDayDateClick}
+        mobileMediaView={mobileMediaView}
+        onMobileMediaViewChange={setMobileMediaView}
       />
 
-      <div className="app-main">
-        <div className="app-map">
+      <div
+        className={`app-main${
+          mobileMediaView === 'gallery' ? ' is-gallery-view' : ''
+        }`}
+      >
+        <div
+          className={`app-map${
+            mobileMediaView === 'gallery' ? ' is-mobile-hidden' : ''
+          }`}
+        >
           <MapView
             route={selectedDayDate ? undefined : selectedRoute}
             routes={
@@ -88,36 +100,21 @@ export default function App() {
           />
         </div>
 
+        <div
+          className={`app-gallery-mobile${
+            mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
+          }`}
+          aria-label="Gallery"
+          aria-hidden={mobileMediaView === 'map'}
+        >
+          <PictureCarousel pictures={pictureUrls} />
+        </div>
+
         <div className="app-pictures" aria-label="Pictures">
           <PictureCarousel pictures={pictureUrls} />
         </div>
 
         <div className="app-chart">
-          {hasRoute && (
-            <button
-              type="button"
-              className="app-chart-pictures-btn"
-              onClick={() => setCarouselPopupOpen(true)}
-              aria-label="View pictures"
-              title="View pictures"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden
-              >
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-                <circle cx="8.5" cy="8.5" r="1.5" />
-                <polyline points="21 15 16 10 5 21" />
-              </svg>
-            </button>
-          )}
           {hasRoute && (
             <ElevationChart
               data={elevationProfile}
@@ -125,6 +122,7 @@ export default function App() {
               date={chartDate}
               day={chartDay}
               distanceKm={chartDistanceKm}
+              hideGraph={mobileMediaView === 'gallery'}
             />
           )}
         </div>
@@ -140,13 +138,6 @@ export default function App() {
             notes={notesText}
           />
         </div>
-
-        {carouselPopupOpen && (
-          <CarouselPopup
-            pictures={pictureUrls}
-            onClose={() => setCarouselPopupOpen(false)}
-          />
-        )}
       </div>
     </div>
   )
