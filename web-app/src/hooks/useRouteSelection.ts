@@ -12,9 +12,9 @@ import {
 	waypointNamesOrderedAlongRoute,
 } from '../utils/waypointsOnRoute';
 
-function getDayQueryParam(): string | null {
+function getShowQueryParam(): string | null {
 	if (typeof window === 'undefined') return null;
-	return new URLSearchParams(window.location.search).get('day');
+	return new URLSearchParams(window.location.search).get('show');
 }
 
 function findDayMetaByQ(q: string) {
@@ -30,11 +30,11 @@ function findDayQByDate(date: string): string | null {
 	return meta?.q ?? null;
 }
 
-function setDayQueryParam(q: string | null) {
+function setShowQueryParam(q: string | null) {
 	if (typeof window === 'undefined') return;
 	const url = new URL(window.location.href);
-	if (q) url.searchParams.set('day', q);
-	else url.searchParams.delete('day');
+	if (q) url.searchParams.set('show', q);
+	else url.searchParams.delete('show');
 	window.history.replaceState({}, '', url);
 }
 
@@ -46,7 +46,7 @@ function getInitialDaySelection(): {
 	routeName: string | null;
 	dayDate: string | null;
 } {
-	const q = getDayQueryParam();
+	const q = getShowQueryParam();
 	if (!q) return { routeName: null, dayDate: null };
 	if (q === DAY10_Q) {
 		return { routeName: DAY_LOBUCHE_2_EBC, dayDate: null };
@@ -118,15 +118,15 @@ export function useRouteSelection(waypoints: Waypoint[]) {
 		setSelectedDayDate(null);
 		const meta = routeMeta[name];
 		if (meta?.type === 'day' && meta.q) {
-			setDayQueryParam(meta.q);
+			setShowQueryParam(meta.q);
 		} else {
-			setDayQueryParam(null);
+			setShowQueryParam(null);
 		}
 	}, []);
 
 	const handleDayDateClick = useCallback((date: string) => {
 		setSelectedDayDate(date);
-		setDayQueryParam(findDayQByDate(date));
+		setShowQueryParam(findDayQByDate(date));
 	}, []);
 
 	const hasRoute = !!selectedRoute || dayWiseRoutesForSelectedDate.length > 0;
