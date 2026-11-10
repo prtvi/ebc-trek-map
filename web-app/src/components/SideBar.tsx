@@ -83,14 +83,14 @@ function getFullDayRouteLabel(
 }
 
 const DATE_GROUP_COLORS = [
-	'#6366f1',
-	'#22c55e',
-	'#eab308',
-	'#ec4899',
-	'#14b8a6',
-	'#f97316',
-	'#8b5cf6',
-	'#ef4444',
+	'#7ec8e3',
+	'#3dcf8e',
+	'#d4a84b',
+	'#9ad0e8',
+	'#5fe0a0',
+	'#e0bf6a',
+	'#6bb8d4',
+	'#8aefb8',
 ];
 
 const TITLE = 'Prithvi and Koushik\'s EBC Trek'

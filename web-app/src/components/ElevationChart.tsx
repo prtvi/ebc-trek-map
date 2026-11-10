@@ -27,7 +27,7 @@ function ChartTooltipContent(props: ChartTooltipContentProps) {
 			? `Distance: ${((index / maxIndex) * distanceKm).toFixed(1)} km`
 			: `Index: ${index}`;
 	return (
-		<div className="elevation-chart-tooltip" style={{ padding: '0 8px 4px', fontSize: '0.75rem' }}>
+		<div className="elevation-chart-tooltip" style={{ fontSize: '0.75rem' }}>
 			<div style={{ marginBottom: 2 }}>{distanceStr}</div>
 			<div>Elevation: {elevation != null ? `${elevation} m` : '—'}</div>
 		</div>
@@ -100,15 +100,31 @@ export default function ElevationChart({
 							<XAxis
 								dataKey="index"
 								tickFormatter={formatXTick}
-								tick={{ style: { fontSize: '0.7rem' } }}
-								label={{ value: 'Distance (km)', position: 'insideBottom', offset: -8, style: { fontSize: '0.7rem' } }}
+								tick={{ fill: '#8fa3b5', fontSize: 11 }}
+								axisLine={{ stroke: 'rgba(186, 214, 232, 0.18)' }}
+								tickLine={{ stroke: 'rgba(186, 214, 232, 0.18)' }}
+								label={{
+									value: 'Distance (km)',
+									position: 'insideBottom',
+									offset: -8,
+									style: { fontSize: '0.7rem', fill: '#8fa3b5' },
+								}}
 							/>
 							<YAxis
 								dataKey="elevation"
 								domain={yDomain}
 								tickFormatter={(value) => `${value} m`}
-								tick={{ style: { fontSize: '0.7rem' } }}
-								label={{ value: 'Elevation (m)', angle: -90, position: 'insideLeft', offset: -12, style: { fontSize: '0.7rem' }, dy: 35 }}
+								tick={{ fill: '#8fa3b5', fontSize: 11 }}
+								axisLine={{ stroke: 'rgba(186, 214, 232, 0.18)' }}
+								tickLine={{ stroke: 'rgba(186, 214, 232, 0.18)' }}
+								label={{
+									value: 'Elevation (m)',
+									angle: -90,
+									position: 'insideLeft',
+									offset: -12,
+									style: { fontSize: '0.7rem', fill: '#8fa3b5' },
+									dy: 35,
+								}}
 							/>
 							<Tooltip
 									content={
@@ -116,11 +132,22 @@ export default function ElevationChart({
 											? () => null
 											: <ChartTooltipContent maxIndex={maxIndex} distanceKm={distanceKm} />
 									}
-									cursor={!isMobile}
-									contentStyle={isMobile ? undefined : { padding: 0, minWidth: 'auto' }}
+									cursor={
+										!isMobile
+											? { stroke: 'rgba(126, 200, 227, 0.45)', strokeWidth: 1 }
+											: false
+									}
+									contentStyle={isMobile ? undefined : { padding: 0, minWidth: 'auto', background: 'transparent', border: 'none', boxShadow: 'none' }}
 									wrapperStyle={{ outline: 'none' }}
 								/>
-							<Line type="monotone" dataKey="elevation" stroke="#16a34a" dot={false} />
+							<Line
+								type="monotone"
+								dataKey="elevation"
+								stroke="#7ec8e3"
+								strokeWidth={2.25}
+								dot={false}
+								activeDot={{ r: 4, fill: '#7ec8e3', stroke: '#101418', strokeWidth: 2 }}
+							/>
 						</LineChart>
 					</ResponsiveContainer>
 				</div>
