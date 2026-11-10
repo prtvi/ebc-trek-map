@@ -38,18 +38,29 @@ function setDayQueryParam(q: string | null) {
 	window.history.replaceState({}, '', url);
 }
 
-function getInitialSelectedDayDate(): string | null {
+// Day 10 has two TYPE_DAY routes sharing q=day10; deep links always land on uphill.
+const DAY10_Q = 'day10';
+const DAY_LOBUCHE_2_EBC = 'Lobuche - Everest Base Camp Monument';
+
+function getInitialDaySelection(): {
+	routeName: string | null;
+	dayDate: string | null;
+} {
 	const q = getDayQueryParam();
-	if (!q) return null;
-	return findDayMetaByQ(q)?.date ?? null;
+	if (!q) return { routeName: null, dayDate: null };
+	if (q === DAY10_Q) {
+		return { routeName: DAY_LOBUCHE_2_EBC, dayDate: null };
+	}
+	return { routeName: null, dayDate: findDayMetaByQ(q)?.date ?? null };
 }
 
 export function useRouteSelection(waypoints: Waypoint[]) {
+	const initialDay = getInitialDaySelection();
 	const [selectedRouteName, setSelectedRouteName] = useState(
-		allRoutes[0].name,
+		initialDay.routeName ?? allRoutes[0].name,
 	);
 	const [selectedDayDate, setSelectedDayDate] = useState<string | null>(
-		getInitialSelectedDayDate,
+		initialDay.dayDate,
 	);
 
 	const selectedRoute = useMemo(

@@ -1913,7 +1913,48 @@ button:focus-visible {
   padding: 0.4rem 0.55rem !important;
 }
 
+/* Location name labels — match alpine app theme */
 .leaflet-tooltip.map-waypoint-label {
-  font-size: 0.75rem;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
   margin-top: 0;
+  background: rgba(16, 20, 24, 0.92) !important;
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-line-strong) !important;
+  border-radius: 7px !important;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+  padding: 0.22rem 0.5rem !important;
+}
+
+.leaflet-tooltip.map-waypoint-label::before {
+  border-top-color: rgba(16, 20, 24, 0.92) !important;
+}
+
+.map-view-wrapper .leaflet-popup-content-wrapper {
+  background: var(--app-panel);
+  color: var(--app-text);
+  border: 1px solid var(--app-line);
+  border-radius: 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+  font-family: var(--font-ui);
+}
+
+.map-view-wrapper .leaflet-popup-content {
+  margin: 0.65rem 0.85rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.map-view-wrapper .leaflet-popup-tip {
+  background: var(--app-panel);
+}
+
+.map-view-wrapper .leaflet-popup-close-button {
+  color: var(--app-muted) !important;
+}
+
+.map-view-wrapper .leaflet-popup-close-button:hover {
+  color: var(--app-text-bright) !important;
 }
