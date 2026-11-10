@@ -110,7 +110,7 @@ async function processDirectory(dirPath) {
 
     const dayOutputDir = path.join(outputDir, dayDir);
     await fs.mkdir(dayOutputDir, { recursive: true });
-    const outputName = `${dayDir}-${n}.webp`;
+    const outputName = `${n}.webp`;
     const outputPath = path.join(dayOutputDir, outputName);
 
     try {

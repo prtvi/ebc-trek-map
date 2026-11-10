@@ -1,9 +1,9 @@
 const PP = (date, assetCount) => {
 	const out = [];
 
-	for (let i = 1; i <= assetCount; i++) {
+	for (let i = 0; i < assetCount; i++) {
 		out.push(
-			`https://res.cloudinary.com/dbedchkny/image/upload/EBC/${date}/${date}-${i}.webp`,
+			`https://res.cloudinary.com/dbedchkny/image/upload/EBC/${date}/${i}.webp`,
 		);
 	}
 
@@ -67,16 +67,16 @@ const P2P_TENGBOCHE_2_NAMCHE = 'Tengboche - Namche Bazaar';
 const P2P_NAMCHE_2_PHAKDING = 'Namche Bazaar - Phakding';
 const P2P_PHAKDING_2_LUKLA = 'Phakding - Lukla';
 
-const PICS_FEB_14 = PP(DATE_FEB_14, 29);
-const PICS_FEB_15 = PP(DATE_FEB_15, 19);
-const PICS_FEB_17 = PP(DATE_FEB_17, 20);
+const PICS_FEB_14 = PP(DATE_FEB_14, 23);
+const PICS_FEB_15 = PP(DATE_FEB_15, 14);
+const PICS_FEB_17 = PP(DATE_FEB_17, 15);
 const PICS_FEB_18 = PP(DATE_FEB_18, 9);
-const PICS_FEB_19 = PP(DATE_FEB_19, 12);
+const PICS_FEB_19 = PP(DATE_FEB_19, 11);
 const PICS_FEB_21 = PP(DATE_FEB_21, 15);
-const PICS_FEB_22 = PP(DATE_FEB_22, 12);
-const PICS_FEB_23 = PP(DATE_FEB_23, 18);
+const PICS_FEB_22 = PP(DATE_FEB_22, 11);
+const PICS_FEB_23 = PP(DATE_FEB_23, 16);
 const PICS_FEB_24 = PP(DATE_FEB_24, 12);
-const PICS_FEB_25 = PP(DATE_FEB_25, 10);
+const PICS_FEB_25 = PP(DATE_FEB_25, 11);
 
 export const routeMeta = {
 	// full routes
@@ -214,7 +214,7 @@ export const routeMeta = {
 		pictures: PICS_FEB_24,
 		mediaEnabled: false,
 		type: TYPE_P2P,
-		notes: 'Long descent to Pheriche. Much easier breathing at lower altitude. Got some good hydration here; didn\'t stop here, planned to target reaching Namche Bazaar today.',
+		notes: "Long descent to Pheriche. Much easier breathing at lower altitude. Got some good hydration here; didn't stop here, planned to target reaching Namche Bazaar today.",
 	},
 	[P2P_PHERICHE_2_PANGBOCHE]: {
 		day: DAY_11,

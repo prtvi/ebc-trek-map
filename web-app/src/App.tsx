@@ -91,14 +91,12 @@ export default function App() {
       />
 
       <div
-        className={`app-main${
-          showGallery ? ' is-gallery-view' : ''
-        }${mediaEnabled ? '' : ' is-media-disabled'}`}
+        className={`app-main${showGallery ? ' is-gallery-view' : ''
+          }${mediaEnabled ? '' : ' is-media-disabled'}`}
       >
         <div
-          className={`app-map${
-            showGallery ? ' is-mobile-hidden' : ''
-          }`}
+          className={`app-map${showGallery ? ' is-mobile-hidden' : ''
+            }`}
         >
           <MapView
             route={selectedDayDate ? undefined : selectedRoute}
@@ -114,9 +112,8 @@ export default function App() {
         {mediaEnabled && (
           <>
             <div
-              className={`app-gallery-mobile${
-                mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
-              }`}
+              className={`app-gallery-mobile${mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
+                }`}
               aria-label="Gallery"
               aria-hidden={mobileMediaView === 'map'}
             >
