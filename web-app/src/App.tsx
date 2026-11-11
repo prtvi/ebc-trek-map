@@ -31,8 +31,9 @@ export default function App() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json; charset=UTF-8' },
       body: JSON.stringify({
-        url: window.location.href,
+        url: `${window.location.origin}${window.location.pathname}`,
         src: new URLSearchParams(window.location.search).get('src'),
+        show: new URLSearchParams(window.location.search).get('show'),
       }),
     }).catch(() => {
       // Ignore webhook failures so the map still loads
