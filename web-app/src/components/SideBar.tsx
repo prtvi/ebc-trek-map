@@ -20,7 +20,6 @@ interface Props {
 	onDayDateClick: (date: string) => void;
 	mobileMediaView: MobileMediaView;
 	onMobileMediaViewChange: (view: MobileMediaView) => void;
-	mediaEnabled?: boolean;
 }
 
 function HamburgerIcon({ open }: { open: boolean }) {
@@ -93,7 +92,6 @@ export default function Sidebar({
 	onDayDateClick,
 	mobileMediaView,
 	onMobileMediaViewChange,
-	mediaEnabled = false,
 }: Props) {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const routesListRef = useRef<HTMLDivElement>(null);
@@ -206,36 +204,34 @@ export default function Sidebar({
 						{TITLE}
 					</h2>
 				</div>
-				{mediaEnabled && (
-					<div
-						className="app-media-switch"
-						role="tablist"
-						aria-label="Map or gallery"
+				<div
+					className="app-media-switch"
+					role="tablist"
+					aria-label="Map or gallery"
+				>
+					<button
+						type="button"
+						role="tab"
+						className={`app-media-switch-btn${
+							mobileMediaView === 'map' ? ' is-active' : ''
+						}`}
+						aria-selected={mobileMediaView === 'map'}
+						onClick={() => onMobileMediaViewChange('map')}
 					>
-						<button
-							type="button"
-							role="tab"
-							className={`app-media-switch-btn${
-								mobileMediaView === 'map' ? ' is-active' : ''
-							}`}
-							aria-selected={mobileMediaView === 'map'}
-							onClick={() => onMobileMediaViewChange('map')}
-						>
-							Map
-						</button>
-						<button
-							type="button"
-							role="tab"
-							className={`app-media-switch-btn${
-								mobileMediaView === 'gallery' ? ' is-active' : ''
-							}`}
-							aria-selected={mobileMediaView === 'gallery'}
-							onClick={() => onMobileMediaViewChange('gallery')}
-						>
-							Gallery
-						</button>
-					</div>
-				)}
+						Map
+					</button>
+					<button
+						type="button"
+						role="tab"
+						className={`app-media-switch-btn${
+							mobileMediaView === 'gallery' ? ' is-active' : ''
+						}`}
+						aria-selected={mobileMediaView === 'gallery'}
+						onClick={() => onMobileMediaViewChange('gallery')}
+					>
+						Gallery
+					</button>
+				</div>
 			</div>
 
 			{/* Desktop: header; Mobile: drawer overlay + panel */}

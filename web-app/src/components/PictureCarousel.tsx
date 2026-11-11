@@ -307,8 +307,8 @@ export default function PictureCarousel({ pictures }: Props) {
 						aria-label="Previous image"
 					>
 						<svg
-							width="18"
-							height="18"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"
@@ -327,8 +327,8 @@ export default function PictureCarousel({ pictures }: Props) {
 						aria-label="Next image"
 					>
 						<svg
-							width="18"
-							height="18"
+							width="14"
+							height="14"
 							viewBox="0 0 24 24"
 							fill="none"
 							stroke="currentColor"

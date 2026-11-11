@@ -66,14 +66,56 @@ export default function App() {
     chartDistanceKm,
   } = useRouteSelection(waypoints)
 
-  useEffect(() => {
-    if (!mediaEnabled && mobileMediaView !== 'map') {
-      setMobileMediaView('map')
-    }
-  }, [mediaEnabled, mobileMediaView])
+  const showGallery = mobileMediaView === 'gallery'
 
-  const showGallery =
-    mediaEnabled && mobileMediaView === 'gallery'
+  const galleryContent = mediaEnabled ? (
+    <PictureCarousel pictures={pictureUrls} />
+  ) : (
+    <div className="gallery-teaser">
+      <p className="gallery-teaser-eyebrow">Photos coming soon</p>
+      <p className="gallery-teaser-title">
+        Follow along for more from the trail
+      </p>
+      <p className="gallery-teaser-copy">
+        New pictures will show up here as they go up. Until then, catch them on
+        Instagram.
+      </p>
+      <a
+        className="gallery-teaser-link"
+        href="https://www.instagram.com/earths.jpegs"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <svg
+          className="gallery-teaser-icon"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden
+        >
+          <rect
+            x="3"
+            y="3"
+            width="18"
+            height="18"
+            rx="5"
+            stroke="currentColor"
+            strokeWidth="1.75"
+          />
+          <circle
+            cx="12"
+            cy="12"
+            r="4"
+            stroke="currentColor"
+            strokeWidth="1.75"
+          />
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" />
+        </svg>
+        <span className="gallery-teaser-handle">@earths.jpegs</span>
+      </a>
+    </div>
+  )
 
   return (
     <div className="app-layout">
@@ -87,12 +129,10 @@ export default function App() {
         onDayDateClick={handleDayDateClick}
         mobileMediaView={mobileMediaView}
         onMobileMediaViewChange={setMobileMediaView}
-        mediaEnabled={mediaEnabled}
       />
 
       <div
-        className={`app-main${showGallery ? ' is-gallery-view' : ''
-          }${mediaEnabled ? '' : ' is-media-disabled'}`}
+        className={`app-main${showGallery ? ' is-gallery-view' : ''}`}
       >
         <div
           className={`app-map${showGallery ? ' is-mobile-hidden' : ''
@@ -109,22 +149,18 @@ export default function App() {
           />
         </div>
 
-        {mediaEnabled && (
-          <>
-            <div
-              className={`app-gallery-mobile${mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
-                }`}
-              aria-label="Gallery"
-              aria-hidden={mobileMediaView === 'map'}
-            >
-              <PictureCarousel pictures={pictureUrls} />
-            </div>
+        <div
+          className={`app-gallery-mobile${mobileMediaView === 'map' ? ' is-mobile-hidden' : ''
+            }`}
+          aria-label="Gallery"
+          aria-hidden={mobileMediaView === 'map'}
+        >
+          {galleryContent}
+        </div>
 
-            <div className="app-pictures" aria-label="Pictures">
-              <PictureCarousel pictures={pictureUrls} />
-            </div>
-          </>
-        )}
+        <div className="app-pictures" aria-label="Pictures">
+          {galleryContent}
+        </div>
 
         <div className="app-chart">
           {hasRoute && (

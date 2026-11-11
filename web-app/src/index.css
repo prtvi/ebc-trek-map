@@ -1154,16 +1154,17 @@ button:focus-visible {
 
   .app-gallery-mobile .picture-carousel-btn {
     z-index: 2;
-    width: 2.75rem;
-    height: 2.75rem;
-    background: rgba(16, 20, 24, 0.55);
-    border-color: var(--app-line-strong);
-    backdrop-filter: blur(6px);
+    width: 1.75rem;
+    height: 1.75rem;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
   }
 
   .app-gallery-mobile .picture-carousel-btn:hover {
-    background: rgba(126, 200, 227, 0.18);
-    border-color: var(--app-ice-mid);
+    background: transparent;
+    border: none;
+    opacity: 0.85;
   }
 
   .app-gallery-mobile .picture-carousel-btn--prev {
@@ -1407,16 +1408,17 @@ button:focus-visible {
 
   .app-pictures .picture-carousel-btn {
     z-index: 2;
-    width: 2.75rem;
-    height: 2.75rem;
-    background: rgba(16, 20, 24, 0.55);
-    border-color: var(--app-line-strong);
-    backdrop-filter: blur(6px);
+    width: 1.75rem;
+    height: 1.75rem;
+    background: transparent;
+    border: none;
+    backdrop-filter: none;
   }
 
   .app-pictures .picture-carousel-btn:hover {
-    background: rgba(126, 200, 227, 0.18);
-    border-color: var(--app-ice-mid);
+    background: transparent;
+    border: none;
+    opacity: 0.85;
   }
 
   .app-pictures .picture-carousel-btn--prev {
@@ -1443,6 +1445,122 @@ button:focus-visible {
     bottom: 0.7rem;
     right: 0.75rem;
     z-index: 2;
+  }
+}
+
+/* Disposable Instagram teaser when route media is off */
+.gallery-teaser {
+  margin: auto;
+  padding: 1.75rem 1.5rem;
+  max-width: 17.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.7rem;
+  box-sizing: border-box;
+  animation: gallery-teaser-in 0.45s ease both;
+}
+
+.gallery-teaser-eyebrow {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--app-gold);
+}
+
+.gallery-teaser-title {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1.28rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  color: var(--app-text-bright);
+}
+
+.gallery-teaser-copy {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--app-muted);
+}
+
+.gallery-teaser-link {
+  margin-top: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  box-sizing: border-box;
+  height: 2.35rem;
+  padding: 0 0.95rem;
+  border: 1px solid var(--app-line-strong);
+  border-radius: 0.55rem;
+  background: linear-gradient(
+    180deg,
+    rgba(126, 200, 227, 0.14) 0%,
+    rgba(126, 200, 227, 0.05) 100%
+  );
+  color: var(--app-ice);
+  font-family: var(--font-ui);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition:
+    background 0.18s ease,
+    border-color 0.18s ease,
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.gallery-teaser-link:hover {
+  background: linear-gradient(
+    180deg,
+    rgba(126, 200, 227, 0.22) 0%,
+    rgba(126, 200, 227, 0.1) 100%
+  );
+  border-color: var(--app-ice);
+  color: #e8f7fc;
+  transform: translateY(-1px);
+}
+
+.gallery-teaser-icon,
+.gallery-teaser-handle {
+  translate: 0 -0.08em;
+}
+
+.gallery-teaser-icon {
+  display: block;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  opacity: 0.95;
+}
+
+.gallery-teaser-handle {
+  display: block;
+  line-height: 1;
+}
+
+.app-gallery-mobile:has(.gallery-teaser) {
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes gallery-teaser-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -1538,11 +1656,11 @@ button:focus-visible {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border-radius: 50%;
-  border: 1px solid var(--app-line-strong);
-  background: rgba(16, 20, 24, 0.62);
+  border: none;
+  background: transparent;
   color: var(--app-text-bright);
   line-height: 0;
   cursor: pointer;
@@ -1550,19 +1668,22 @@ button:focus-visible {
   align-items: center;
   justify-content: center;
   padding: 0;
-  backdrop-filter: blur(6px);
-  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  backdrop-filter: none;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 
 .picture-carousel-btn svg {
   display: block;
   flex-shrink: 0;
+  width: 14px;
+  height: 14px;
 }
 
 .picture-carousel-btn:hover {
-  background: rgba(126, 200, 227, 0.2);
-  border-color: var(--app-ice-mid);
+  background: transparent;
+  border-color: transparent;
   color: #e8f7fc;
+  opacity: 0.85;
 }
 
 .picture-carousel-btn--prev {
