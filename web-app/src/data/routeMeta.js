@@ -12,10 +12,6 @@ const PP = (date, start, end) => {
 
 const D = day => day.toLowerCase().replace(' ', '');
 
-const TYPE_FULL = 'full';
-const TYPE_DAY = 'day';
-const TYPE_P2P = 'p2p'; // point to point
-
 const DATE_FEB_14 = '2026-02-14';
 const DATE_FEB_15 = '2026-02-15';
 const DATE_FEB_17 = '2026-02-17';
@@ -26,6 +22,20 @@ const DATE_FEB_22 = '2026-02-22';
 const DATE_FEB_23 = '2026-02-23';
 const DATE_FEB_24 = '2026-02-24';
 const DATE_FEB_25 = '2026-02-25';
+const DATE_FEB_26 = '2026-02-26';
+
+const PICS_FEB_14A = PP(DATE_FEB_14, 0, 9); // only pictures of flight from kathmandu to lukla, post A. Not shown on day wise route, only on full uphill route
+const PICS_FEB_14B = PP(DATE_FEB_14, 10, 22); // lukla to phakding, post B
+const PICS_FEB_15 = PP(DATE_FEB_15, 0, 13);
+const PICS_FEB_17 = PP(DATE_FEB_17, 0, 14);
+const PICS_FEB_18 = PP(DATE_FEB_18, 0, 8);
+const PICS_FEB_19 = PP(DATE_FEB_19, 0, 10);
+const PICS_FEB_21 = PP(DATE_FEB_21, 0, 14);
+const PICS_FEB_22 = PP(DATE_FEB_22, 0, 10);
+const PICS_FEB_23 = PP(DATE_FEB_23, 0, 15);
+const PICS_FEB_24 = PP(DATE_FEB_24, 0, 11);
+const PICS_FEB_25 = PP(DATE_FEB_25, 0, 10);
+const PICS_FEB_26 = PP(DATE_FEB_26, 0, 6); // only coming home pictures, not shown on day wise route, only on full downhill route
 
 const DAY_1 = 'Day 1';
 const DAY_2 = 'Day 2';
@@ -67,17 +77,9 @@ const P2P_TENGBOCHE_2_NAMCHE = 'Tengboche - Namche Bazaar';
 const P2P_NAMCHE_2_PHAKDING = 'Namche Bazaar - Phakding';
 const P2P_PHAKDING_2_LUKLA = 'Phakding - Lukla';
 
-const PICS_FEB_14A = PP(DATE_FEB_14, 0, 9);
-const PICS_FEB_14B = PP(DATE_FEB_14, 10, 22);
-const PICS_FEB_15 = PP(DATE_FEB_15,	0, 13);
-const PICS_FEB_17 = PP(DATE_FEB_17, 0, 14);
-const PICS_FEB_18 = PP(DATE_FEB_18, 0, 8);
-const PICS_FEB_19 = PP(DATE_FEB_19, 0, 10);
-const PICS_FEB_21 = PP(DATE_FEB_21, 0, 14);
-const PICS_FEB_22 = PP(DATE_FEB_22, 0, 10);
-const PICS_FEB_23 = PP(DATE_FEB_23, 0, 15);
-const PICS_FEB_24 = PP(DATE_FEB_24, 0, 11);
-const PICS_FEB_25 = PP(DATE_FEB_25, 0, 10);
+const TYPE_FULL = 'full';
+const TYPE_DAY = 'day';
+const TYPE_P2P = 'p2p'; // point to point
 
 export const routeMeta = {
 	// full routes
@@ -92,7 +94,7 @@ export const routeMeta = {
 	[FULL_EBC_2_LUKLA]: {
 		day: 'Ended on',
 		date: DATE_FEB_25,
-		pictures: [...PICS_FEB_24, ...PICS_FEB_25],
+		pictures: [...PICS_FEB_24, ...PICS_FEB_25, ...PICS_FEB_26],
 		mediaEnabled: false,
 		type: TYPE_FULL,
 		notes: 'Return journey from EBC to Lukla via Pheriche, Tengboche and Namche. Long descent days. But really proud to have completed the descent in 2 days.',
