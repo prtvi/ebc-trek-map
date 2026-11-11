@@ -68,6 +68,16 @@ export default function App() {
 
   const showGallery = mobileMediaView === 'gallery'
 
+  const onSelectRoute = (name: string) => {
+    setMobileMediaView('map')
+    handleSelectRoute(name)
+  }
+
+  const onDayDateClick = (date: string) => {
+    setMobileMediaView('map')
+    handleDayDateClick(date)
+  }
+
   const galleryContent = mediaEnabled ? (
     <PictureCarousel pictures={pictureUrls} />
   ) : (
@@ -125,8 +135,8 @@ export default function App() {
         routeMeta={routeMeta}
         selected={selectedRouteName}
         selectedDayDate={selectedDayDate}
-        onSelect={handleSelectRoute}
-        onDayDateClick={handleDayDateClick}
+        onSelect={onSelectRoute}
+        onDayDateClick={onDayDateClick}
         mobileMediaView={mobileMediaView}
         onMobileMediaViewChange={setMobileMediaView}
       />
