@@ -1,7 +1,7 @@
-const PP = (date, assetCount) => {
+const PP = (date, start, end) => {
 	const out = [];
 
-	for (let i = 0; i < assetCount; i++) {
+	for (let i = start; i <= end; i++) {
 		out.push(
 			`https://res.cloudinary.com/dbedchkny/image/upload/EBC/${date}/${i}.webp`,
 		);
@@ -67,24 +67,24 @@ const P2P_TENGBOCHE_2_NAMCHE = 'Tengboche - Namche Bazaar';
 const P2P_NAMCHE_2_PHAKDING = 'Namche Bazaar - Phakding';
 const P2P_PHAKDING_2_LUKLA = 'Phakding - Lukla';
 
-const PICS_FEB_14 = PP(DATE_FEB_14, 10);
-// const PICS_FEB_14 = PP(DATE_FEB_14, 23);
-const PICS_FEB_15 = PP(DATE_FEB_15, 14);
-const PICS_FEB_17 = PP(DATE_FEB_17, 15);
-const PICS_FEB_18 = PP(DATE_FEB_18, 9);
-const PICS_FEB_19 = PP(DATE_FEB_19, 11);
-const PICS_FEB_21 = PP(DATE_FEB_21, 15);
-const PICS_FEB_22 = PP(DATE_FEB_22, 11);
-const PICS_FEB_23 = PP(DATE_FEB_23, 16);
-const PICS_FEB_24 = PP(DATE_FEB_24, 12);
-const PICS_FEB_25 = PP(DATE_FEB_25, 11);
+const PICS_FEB_14A = PP(DATE_FEB_14, 0, 9);
+const PICS_FEB_14B = PP(DATE_FEB_14, 10, 22);
+const PICS_FEB_15 = PP(DATE_FEB_15,	0, 13);
+const PICS_FEB_17 = PP(DATE_FEB_17, 0, 14);
+const PICS_FEB_18 = PP(DATE_FEB_18, 0, 8);
+const PICS_FEB_19 = PP(DATE_FEB_19, 0, 10);
+const PICS_FEB_21 = PP(DATE_FEB_21, 0, 14);
+const PICS_FEB_22 = PP(DATE_FEB_22, 0, 10);
+const PICS_FEB_23 = PP(DATE_FEB_23, 0, 15);
+const PICS_FEB_24 = PP(DATE_FEB_24, 0, 11);
+const PICS_FEB_25 = PP(DATE_FEB_25, 0, 10);
 
 export const routeMeta = {
 	// full routes
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14], //, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A], //, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -103,8 +103,8 @@ export const routeMeta = {
 		day: DAY_1,
 		q: D(DAY_1),
 		date: DATE_FEB_14,
-		pictures: PICS_FEB_14,
-		mediaEnabled: true,
+		pictures: PICS_FEB_14B,
+		mediaEnabled: false,
 		type: TYPE_DAY,
 		notes: 'Short descent from Lukla to Phakding. First day on the trail, kinda tiring but beautiful views of the villages and mountains. Good food at Phakding.',
 	},
