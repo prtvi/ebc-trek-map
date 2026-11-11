@@ -67,7 +67,8 @@ const P2P_TENGBOCHE_2_NAMCHE = 'Tengboche - Namche Bazaar';
 const P2P_NAMCHE_2_PHAKDING = 'Namche Bazaar - Phakding';
 const P2P_PHAKDING_2_LUKLA = 'Phakding - Lukla';
 
-const PICS_FEB_14 = PP(DATE_FEB_14, 23);
+const PICS_FEB_14 = PP(DATE_FEB_14, 10);
+// const PICS_FEB_14 = PP(DATE_FEB_14, 23);
 const PICS_FEB_15 = PP(DATE_FEB_15, 14);
 const PICS_FEB_17 = PP(DATE_FEB_17, 15);
 const PICS_FEB_18 = PP(DATE_FEB_18, 9);
