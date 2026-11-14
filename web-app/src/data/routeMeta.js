@@ -86,7 +86,7 @@ export const routeMeta = {
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15], // ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17], //...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -124,7 +124,7 @@ export const routeMeta = {
 		q: D(DAY_4),
 		date: DATE_FEB_17,
 		pictures: PICS_FEB_17,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Left the main EBC trail for the Gokyo route. Steep climb to Mong La then through the forest to Dole. Quieter trail, fewer trekkers. Felt like the longest trail so far.',
 	},
