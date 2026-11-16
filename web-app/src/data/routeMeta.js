@@ -86,7 +86,7 @@ export const routeMeta = {
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18], // ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19], // ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -145,13 +145,13 @@ export const routeMeta = {
 		notes: 'Short day to Macchermo. Shorter distance so did not take many breaks. Views were amazing.',
 	},
 
-	// day 6 - post 6
+	// day 6 - post 6 // posted
 	[DAY_MACCHERMO_2_GOKYO]: {
 		day: DAY_6,
 		q: D(DAY_6),
 		date: DATE_FEB_19,
 		pictures: PICS_FEB_19,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Reached Gokyo village by the lake. Stunning turquoise water. One of the best viewpoints of the trek. Rest day tomorrow for acclimatisation.',
 	},
