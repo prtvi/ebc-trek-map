@@ -57,6 +57,7 @@ const DAY_NAMCHE_2_DOLE = 'Namche Bazaar - Dole';
 const DAY_DOLE_2_MACCHERMO = 'Dole - Macchermo';
 const DAY_MACCHERMO_2_GOKYO = 'Macchermo - Gokyo';
 const DAY_GOKYO_2_DZONGLHA = 'Gokyo - Dzonglha';
+const DAY_DZONGLHA_2_LOBUCHE = 'Dzonglha - Lobuche';
 const DAY_LOBUCHE_2_EBC = 'Lobuche - Everest Base Camp Monument';
 const DAY_EBC_2_LOBUCHE = 'Everest Base Camp Monument - Lobuche';
 const DAY_LOBUCHE_2_NAMCHE = 'Lobuche - Namche Bazaar';
@@ -65,7 +66,6 @@ const DAY_NAMCHE_2_LUKLA = 'Namche Bazaar - Lukla';
 const P2P_GOKYO_2_DRAGNAG = 'Gokyo - Dragnag';
 const P2P_DRAGNAG_2_CHO_LA = 'Dragnag - Cho La';
 const P2P_CHO_LA_2_DZONGLHA = 'Cho La - Dzonglha';
-const P2P_DZONGLHA_2_LOBUCHE = 'Dzonglha - Lobuche';
 const P2P_LOBUCHE_2_GORAK_SHEP = 'Lobuche - Gorak Shep';
 const P2P_GORAK_SHEP_2_EBC = 'Gorak Shep - Everest Base Camp Monument';
 const P2P_EBC_2_GORAK_SHEP = 'Everest Base Camp Monument - Gorak Shep';
@@ -101,6 +101,7 @@ export const routeMeta = {
 	},
 
 	// point to point and day wise routes
+	// day 1 - post 1A and 1B (1 & 2) // posted
 	[DAY_LUKLA_2_PHAKDING]: {
 		day: DAY_1,
 		q: D(DAY_1),
@@ -110,6 +111,8 @@ export const routeMeta = {
 		type: TYPE_DAY,
 		notes: 'Short descent from Lukla to Phakding. First day on the trail, kinda tiring but beautiful views of the villages and mountains. Good food at Phakding.',
 	},
+
+	// day 2 - post 3 // posted
 	[DAY_PHAKDING_2_NAMCHE]: {
 		day: DAY_2,
 		q: D(DAY_2),
@@ -119,6 +122,8 @@ export const routeMeta = {
 		type: TYPE_DAY,
 		notes: 'Tough climb up to Namche. Crossed the high suspension bridges. Entered the Sagarmatha National Park. Witnessed snowfall for the first time. Rest day tomorrow for acclimatisation.',
 	},
+
+	// day 4 - post 4 // posted
 	[DAY_NAMCHE_2_DOLE]: {
 		day: DAY_4,
 		q: D(DAY_4),
@@ -128,6 +133,8 @@ export const routeMeta = {
 		type: TYPE_DAY,
 		notes: 'Left the main EBC trail for the Gokyo route. Steep climb to Mong La then through the forest to Dole. Quieter trail, fewer trekkers. Felt like the longest trail so far.',
 	},
+
+	// day 5 - post 5 // posted
 	[DAY_DOLE_2_MACCHERMO]: {
 		day: DAY_5,
 		q: D(DAY_5),
@@ -137,6 +144,8 @@ export const routeMeta = {
 		type: TYPE_DAY,
 		notes: 'Short day to Macchermo. Shorter distance so did not take many breaks. Views were amazing.',
 	},
+
+	// day 6 - post 6
 	[DAY_MACCHERMO_2_GOKYO]: {
 		day: DAY_6,
 		q: D(DAY_6),
@@ -145,6 +154,17 @@ export const routeMeta = {
 		mediaEnabled: false,
 		type: TYPE_DAY,
 		notes: 'Reached Gokyo village by the lake. Stunning turquoise water. One of the best viewpoints of the trek. Rest day tomorrow for acclimatisation.',
+	},
+
+	// day 8 - post 7
+	[DAY_GOKYO_2_DZONGLHA]: {
+		day: DAY_8,
+		q: D(DAY_8),
+		date: DATE_FEB_21,
+		pictures: PICS_FEB_21,
+		mediaEnabled: false,
+		type: TYPE_DAY,
+		notes: 'Full day from Gokyo over the Ngozumpa glacier to Dragnag, then over Cho La pass to Dzonglha. Long and demanding; glacier crossing in the morning, pass in the afternoon. One of the most challenging days of the entire trek.',
 	},
 	[P2P_GOKYO_2_DRAGNAG]: {
 		day: DAY_8,
@@ -170,7 +190,9 @@ export const routeMeta = {
 		type: TYPE_P2P,
 		notes: 'Completed the Cho La crossing and descended to Dzonglha. Barely made it by the end of the day. Experienced extreme cold and snowfall. Good rest at Dzonglha.',
 	},
-	[P2P_DZONGLHA_2_LOBUCHE]: {
+
+	// day 9 - post 8
+	[DAY_DZONGLHA_2_LOBUCHE]: {
 		day: DAY_9,
 		q: D(DAY_9),
 		date: DATE_FEB_22,
@@ -178,6 +200,17 @@ export const routeMeta = {
 		mediaEnabled: false,
 		type: TYPE_DAY,
 		notes: 'Short walk to Lobuche. The trail was gentler than expected. Good rest at Lobuche.',
+	},
+
+	// day 10 - post 9
+	[DAY_LOBUCHE_2_EBC]: {
+		day: DAY_10,
+		q: D(DAY_10),
+		date: DATE_FEB_23,
+		pictures: PICS_FEB_23,
+		mediaEnabled: false,
+		type: TYPE_DAY,
+		notes: 'Lobuche to Gorak Shep, then to Everest Base Camp and back. The big day — reached EBC, touched the monument, and returned to Gorak Shep.',
 	},
 	[P2P_LOBUCHE_2_GORAK_SHEP]: {
 		day: DAY_10,
@@ -195,6 +228,17 @@ export const routeMeta = {
 		type: TYPE_P2P,
 		notes: 'Reached Everest Base Camp! Touched the monument, took photos, celebrated. Fulfilled a long-held dream. Weather was clear and cold.',
 	},
+
+	// day 10 descent - post 9
+	[DAY_EBC_2_LOBUCHE]: {
+		day: DAY_10,
+		q: D(DAY_10),
+		date: DATE_FEB_23,
+		pictures: PICS_FEB_23,
+		mediaEnabled: false,
+		type: TYPE_DAY,
+		notes: 'Return from EBC and Gorak Shep down to Lobuche. End of the high-altitude section; descent begins in earnest.',
+	},
 	[P2P_EBC_2_GORAK_SHEP]: {
 		day: DAY_10,
 		date: DATE_FEB_23,
@@ -210,6 +254,17 @@ export const routeMeta = {
 		mediaEnabled: false,
 		type: TYPE_P2P,
 		notes: 'Started the descent to Lobuche. Legs felt good going downhill. EBC day complete; beginning the journey home.',
+	},
+
+	// day 11 - post 10
+	[DAY_LOBUCHE_2_NAMCHE]: {
+		day: DAY_11,
+		q: D(DAY_11),
+		date: DATE_FEB_24,
+		pictures: PICS_FEB_24,
+		mediaEnabled: false,
+		type: TYPE_DAY,
+		notes: 'Long descent day: Lobuche → Pheriche → Pangboche → Tengboche → Namche. Covered a lot of ground; felt good to drop altitude.',
 	},
 	[P2P_LOBUCHE_2_PHERICHE]: {
 		day: DAY_11,
@@ -243,6 +298,17 @@ export const routeMeta = {
 		type: TYPE_P2P,
 		notes: 'Down to Namche. Steep drop to the river then climb back to Namche. Celebrated with a shower and a proper meal at the stay.',
 	},
+
+	// day 12 - post 11
+	[DAY_NAMCHE_2_LUKLA]: {
+		day: DAY_12,
+		q: D(DAY_12),
+		date: DATE_FEB_25,
+		pictures: PICS_FEB_25,
+		mediaEnabled: false,
+		type: TYPE_DAY,
+		notes: 'Final day: Namche to Phakding to Lukla. Trek complete. Flight from Lukla scheduled for next morning.',
+	},
 	[P2P_NAMCHE_2_PHAKDING]: {
 		day: DAY_12,
 		date: DATE_FEB_25,
@@ -260,50 +326,6 @@ export const routeMeta = {
 		notes: 'Final stretch to Lukla. Early flight out tomorrow. Trek complete — unforgettable experience from start to finish.',
 	},
 
-	// day wise routes
-	[DAY_GOKYO_2_DZONGLHA]: {
-		day: DAY_8,
-		q: D(DAY_8),
-		date: DATE_FEB_21,
-		pictures: PICS_FEB_21,
-		mediaEnabled: false,
-		type: TYPE_DAY,
-		notes: 'Full day from Gokyo over the Ngozumpa glacier to Dragnag, then over Cho La pass to Dzonglha. Long and demanding; glacier crossing in the morning, pass in the afternoon. One of the most challenging days of the entire trek.',
-	},
-	[DAY_LOBUCHE_2_EBC]: {
-		day: DAY_10,
-		q: D(DAY_10),
-		date: DATE_FEB_23,
-		pictures: PICS_FEB_23,
-		mediaEnabled: false,
-		type: TYPE_DAY,
-		notes: 'Lobuche to Gorak Shep, then to Everest Base Camp and back. The big day — reached EBC, touched the monument, and returned to Gorak Shep.',
-	},
-	[DAY_EBC_2_LOBUCHE]: {
-		day: DAY_10,
-		q: D(DAY_10),
-		date: DATE_FEB_23,
-		pictures: PICS_FEB_23,
-		mediaEnabled: false,
-		type: TYPE_DAY,
-		notes: 'Return from EBC and Gorak Shep down to Lobuche. End of the high-altitude section; descent begins in earnest.',
-	},
-	[DAY_LOBUCHE_2_NAMCHE]: {
-		day: DAY_11,
-		q: D(DAY_11),
-		date: DATE_FEB_24,
-		pictures: PICS_FEB_24,
-		mediaEnabled: false,
-		type: TYPE_DAY,
-		notes: 'Long descent day: Lobuche → Pheriche → Pangboche → Tengboche → Namche. Covered a lot of ground; felt good to drop altitude.',
-	},
-	[DAY_NAMCHE_2_LUKLA]: {
-		day: DAY_12,
-		q: D(DAY_12),
-		date: DATE_FEB_25,
-		pictures: PICS_FEB_25,
-		mediaEnabled: false,
-		type: TYPE_DAY,
-		notes: 'Final day: Namche to Phakding to Lukla. Trek complete. Flight from Lukla scheduled for next morning.',
-	},
+	// day 13 - post 12
+	// posting journey back home to bengaluru
 };
