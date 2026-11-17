@@ -86,7 +86,7 @@ export const routeMeta = {
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19], // ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21], // ...PICS_FEB_22, ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -156,13 +156,13 @@ export const routeMeta = {
 		notes: 'Reached Gokyo village by the lake. Stunning turquoise water. One of the best viewpoints of the trek. Rest day tomorrow for acclimatisation.',
 	},
 
-	// day 8 - post 7
+	// day 8 - post 7 // posted
 	[DAY_GOKYO_2_DZONGLHA]: {
 		day: DAY_8,
 		q: D(DAY_8),
 		date: DATE_FEB_21,
 		pictures: PICS_FEB_21,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Full day from Gokyo over the Ngozumpa glacier to Dragnag, then over Cho La pass to Dzonglha. Long and demanding; glacier crossing in the morning, pass in the afternoon. One of the most challenging days of the entire trek.',
 	},
@@ -170,7 +170,7 @@ export const routeMeta = {
 		day: DAY_8,
 		date: DATE_FEB_21,
 		pictures: PICS_FEB_21,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Crossed the Ngozumpa glacier to Dragnag. Rocky, uneven terrain. Felt very difficult to get there.',
 	},
@@ -178,7 +178,7 @@ export const routeMeta = {
 		day: DAY_8,
 		date: DATE_FEB_21,
 		pictures: PICS_FEB_21,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Felt very very tiriging to get to the top of the Cho La pass. Steep climb on snow and rock, then descent to Dzonglha. Most challenging day so far.',
 	},
@@ -186,7 +186,7 @@ export const routeMeta = {
 		day: DAY_8,
 		date: DATE_FEB_21,
 		pictures: PICS_FEB_21,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Completed the Cho La crossing and descended to Dzonglha. Barely made it by the end of the day. Experienced extreme cold and snowfall. Good rest at Dzonglha.',
 	},
