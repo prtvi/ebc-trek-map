@@ -86,7 +86,7 @@ export const routeMeta = {
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21], // ...PICS_FEB_22, ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22], // ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -191,13 +191,13 @@ export const routeMeta = {
 		notes: 'Completed the Cho La crossing and descended to Dzonglha. Barely made it by the end of the day. Experienced extreme cold and snowfall. Good rest at Dzonglha.',
 	},
 
-	// day 9 - post 8
+	// day 9 - post 8 // posted
 	[DAY_DZONGLHA_2_LOBUCHE]: {
 		day: DAY_9,
 		q: D(DAY_9),
 		date: DATE_FEB_22,
 		pictures: PICS_FEB_22,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Short walk to Lobuche. The trail was gentler than expected. Good rest at Lobuche.',
 	},
