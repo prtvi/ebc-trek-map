@@ -86,7 +86,7 @@ export const routeMeta = {
 	[FULL_LUKLA_2_EBC]: {
 		day: 'Started on',
 		date: DATE_FEB_14,
-		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22], // ...PICS_FEB_23],
+		pictures: [...PICS_FEB_14A, ...PICS_FEB_14B, ...PICS_FEB_15, ...PICS_FEB_17, ...PICS_FEB_18, ...PICS_FEB_19, ...PICS_FEB_21, ...PICS_FEB_22, ...PICS_FEB_23],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Full trek from Lukla to EBC. Acclimatisation days at Namche and Gokyo. Cho La pass and final push to base camp.',
@@ -202,13 +202,13 @@ export const routeMeta = {
 		notes: 'Short walk to Lobuche. The trail was gentler than expected. Good rest at Lobuche.',
 	},
 
-	// day 10 - post 9
+	// day 10 - post 9 // posted
 	[DAY_LOBUCHE_2_EBC]: {
 		day: DAY_10,
 		q: D(DAY_10),
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Lobuche to Gorak Shep, then to Everest Base Camp and back. The big day — reached EBC, touched the monument, and returned to Gorak Shep.',
 	},
@@ -216,7 +216,7 @@ export const routeMeta = {
 		day: DAY_10,
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'EBC day! Rocky trail beside the Khumbu glacier to Gorak Shep. Had some good breakfast here and left for EBC.',
 	},
@@ -224,18 +224,18 @@ export const routeMeta = {
 		day: DAY_10,
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Reached Everest Base Camp! Touched the monument, took photos, celebrated. Fulfilled a long-held dream. Weather was clear and cold.',
 	},
 
-	// day 10 descent - post 9
+	// day 10 descent - post 9 // posted
 	[DAY_EBC_2_LOBUCHE]: {
 		day: DAY_10,
 		q: D(DAY_10),
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Return from EBC and Gorak Shep down to Lobuche. End of the high-altitude section; descent begins in earnest.',
 	},
@@ -243,7 +243,7 @@ export const routeMeta = {
 		day: DAY_10,
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Walked back from EBC to Gorak Shep. Same trail in reverse. Spent a little time for snacks at Gorak Shep and descended to Lobuche.',
 	},
@@ -251,7 +251,7 @@ export const routeMeta = {
 		day: DAY_10,
 		date: DATE_FEB_23,
 		pictures: PICS_FEB_23,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Started the descent to Lobuche. Legs felt good going downhill. EBC day complete; beginning the journey home.',
 	},
