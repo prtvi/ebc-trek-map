@@ -94,7 +94,7 @@ export const routeMeta = {
 	[FULL_EBC_2_LUKLA]: {
 		day: 'Ended on',
 		date: DATE_FEB_25,
-		pictures: [...PICS_FEB_24], // ...PICS_FEB_25, ...PICS_FEB_26],
+		pictures: [...PICS_FEB_24, ...PICS_FEB_25], // ...PICS_FEB_26],
 		mediaEnabled: true,
 		type: TYPE_FULL,
 		notes: 'Return journey from EBC to Lukla via Pheriche, Tengboche and Namche. Long descent days. But really proud to have completed the descent in 2 days.',
@@ -299,13 +299,13 @@ export const routeMeta = {
 		notes: 'Down to Namche. Steep drop to the river then climb back to Namche. Celebrated with a shower and a proper meal at the stay.',
 	},
 
-	// day 12 - post 11
+	// day 12 - post 11 // posted
 	[DAY_NAMCHE_2_LUKLA]: {
 		day: DAY_12,
 		q: D(DAY_12),
 		date: DATE_FEB_25,
 		pictures: PICS_FEB_25,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_DAY,
 		notes: 'Final day: Namche to Phakding to Lukla. Trek complete. Flight from Lukla scheduled for next morning.',
 	},
@@ -313,7 +313,7 @@ export const routeMeta = {
 		day: DAY_12,
 		date: DATE_FEB_25,
 		pictures: PICS_FEB_25,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Descent to Phakding. Last night on the trail. Bought a few souvenirs in Namche before leaving.',
 	},
@@ -321,7 +321,7 @@ export const routeMeta = {
 		day: DAY_12,
 		date: DATE_FEB_25,
 		pictures: PICS_FEB_25,
-		mediaEnabled: false,
+		mediaEnabled: true,
 		type: TYPE_P2P,
 		notes: 'Final stretch to Lukla. Early flight out tomorrow. Trek complete — unforgettable experience from start to finish.',
 	},
